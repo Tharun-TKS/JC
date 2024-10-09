@@ -1,7 +1,9 @@
+
 const API_URL =
-    document.domain === 'localhost'
-    ? "http://localhost:4000"
-    : "production";
+  document.domain === 'localhost'
+    ? "https://jc-creations.co.in/backend"
+    : "https://jc-creations.co.in/backend";
+
 
 const Apis = {
   //Authentication api
@@ -41,6 +43,7 @@ const Apis = {
   //category api
   CreateCategoryList: `${API_URL}/api/category/create`,
   GetAllCategoryList: `${API_URL}/api/category/main-list`,
+  GetAllCategorySubCategoryList: `${API_URL}/api/category/getAllCategory`,
   GetUpdateCategoryList: `${API_URL}/api/category/main-list/update`,
 
   //Sub category api
@@ -68,11 +71,12 @@ const Apis = {
 
 
   //order detail
-  GetAllOrderDetails: `${API_URL}/api/order/list`,
+  GetAllOrderDetails: `${API_URL}/api/order/adminlist`,
   GetOrderStatusUpdate: `${API_URL}/api/order/status/update`,
 
   // customer details
   GetAllCustomerDetails: `${API_URL}/api/customer/list`,
+  GetCustomerUpdateDetails: `${API_URL}/api/customer/update`,
   GetCustomerDeleteById: `${API_URL}/api/customer/delete`,
 
   //payment list

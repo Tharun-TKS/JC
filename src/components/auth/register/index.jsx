@@ -5,7 +5,7 @@ export default class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            firstName: "", lastName: "", phoneNo: "", address: "", email: "", password: "",
+            fullName: "", email: "", password: "",
             redirectToReferrer: false,
         }
     }
@@ -14,8 +14,8 @@ export default class Register extends Component {
     }
     handleSubmit = async (event) => {
         event.preventDefault();
-        const{ firstName, lastName, phoneNo, address, email, password } = this.state;
-        let data = { firstName: firstName, lastName: lastName, phoneNo: phoneNo, address: address, email, password };
+        const { fullName, email, password } = this.state;
+        let data = { fullName: fullName, email, password };
         let user = await GetUserLogin.getUserRegister(data);
         if (user) {
             this.setState({ redirectToReferrer: true })
@@ -43,20 +43,8 @@ export default class Register extends Component {
                                             <div className="card-body">
                                                 <form>
                                                     <div className="form-group">
-                                                        <label className="form-label">First Name*</label>
-                                                        <input className="form-control py-3" type="text" placeholder="Enter firstname" name="firstName" value={this.state.firstName} onChange={(e) => this.handleChangeUser(e)} />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <label className="form-label" >Last Name*</label>
-                                                        <input className="form-control py-3"  type="text" placeholder="Enter lastName" name="lastName" value={this.state.lastName} onChange={(e) => this.handleChangeUser(e)} />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <label className="form-label">Phone*</label>
-                                                        <input className="form-control py-3" type="number" placeholder="Enter phone" name="phoneNo" value={this.state.phoneNo} onChange={(e) => this.handleChangeUser(e)} />
-                                                    </div>
-                                                    <div className="form-group">
-                                                        <label className="form-label" >Address*</label>
-                                                        <input className="form-control py-3"  type="text" placeholder="Enter address" name="address" value={this.state.address} onChange={(e) => this.handleChangeUser(e)} />
+                                                        <label className="form-label">Full Name*</label>
+                                                        <input className="form-control py-3" type="text" placeholder="Enter fullName" name="fullName" value={this.state.fullName} onChange={(e) => this.handleChangeUser(e)} />
                                                     </div>
                                                     <div className="form-group">
                                                         <label className="form-label">Email*</label>
@@ -64,7 +52,7 @@ export default class Register extends Component {
                                                     </div>
                                                     <div className="form-group">
                                                         <label className="form-label" >Password*</label>
-                                                        <input className="form-control py-3"  type="password" placeholder="Enter password" name="password" value={this.state.password} onChange={(e) => this.handleChangeUser(e)} />
+                                                        <input className="form-control py-3" type="password" placeholder="Enter password" name="password" value={this.state.password} onChange={(e) => this.handleChangeUser(e)} />
                                                     </div>
 
                                                     <div className="form-group d-flex align-items-center justify-content-between mt-4 mb-0" onClick={this.handleSubmit}>

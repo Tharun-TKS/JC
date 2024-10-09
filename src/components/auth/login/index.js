@@ -20,25 +20,25 @@ export default class Signin extends Component {
     }
     handleSubmit = async (event) => {
         event.preventDefault();
-        this.setState({ isloaded: true})
+        this.setState({ isloaded: true })
         let data = { email: this.state.email, password: this.state.password };
         let user = await GetUserLogin.getUserLogin(data);
-        if(user){
-             GetUserLogin.authenticate(user, () => {
+        if (user) {
+            GetUserLogin.authenticate(user, () => {
                 this.setState({ redirectToReferrer: true, isloaded: false })
                 window.location.reload()
             })
-        
-        }else{
+
+        } else {
             this.setState({ isloaded: false })
-            NotificationManager.error("Please! Check Username & Password","Input Field");
+            NotificationManager.error("Please! Check Username & Password", "Input Field");
         }
     }
     render() {
         if (this.state.redirectToReferrer || localStorage.getItem('token')) {
             return (<Redirect to={'/admin'} />)
         }
-        let{ isloaded } = this.state
+        let { isloaded } = this.state
         return (
             <div className="bg-sign">
                 <div id="layoutAuthentication">
@@ -46,7 +46,7 @@ export default class Signin extends Component {
                         <main>
                             <div className="container">
                                 {
-                                    isloaded ? <Loader />:''
+                                    isloaded ? <Loader /> : ''
                                 }
                                 <div className="row justify-content-center">
                                     <div className="col-lg-5">

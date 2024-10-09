@@ -1,39 +1,43 @@
-import React, { Component } from 'react'
-import {
-    Button
-} from "@material-ui/core";
+import React, { Component } from 'react';
+import { Button } from "@material-ui/core";
 import { GetCategoryDetails } from '../../../../services';
-import Edit from './edit'
+import Edit from './edit';
 import swal from 'sweetalert';
+
 export default class MainCategory extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '', slug: '', getList: []
-        }
+            name: '',
+            slug: '',
+            getList: [] // Initialize getList as an empty array
+        };
     }
+
     handleChange(e) {
-        this.setState({ [e.target.name]: e.target.value })
+        this.setState({ [e.target.name]: e.target.value });
     }
+
     handleBack() {
         this.props.history.goBack();
     }
+
     async getCategory() {
         let list = await GetCategoryDetails.getCategoryList();
-        this.setState({ getList: list.data })
+        this.setState({ getList: list.data || [] }); // Ensure getList is an array
     }
+
     async componentDidMount() {
         this.getCategory();
     }
+
     formatDate(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
             year = d.getFullYear();
-        if (month.length < 2)
-            month = '0' + month;
-        if (day.length < 2)
-            day = '0' + day;
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
         return [year, month, day].join('-');
     }
 
@@ -43,7 +47,7 @@ export default class MainCategory extends Component {
         let data = { name: name, slug: slug };
         swal({
             title: "Are you sure?",
-            text: "You want to Add New Location",
+            text: "You want to Add New Category",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -57,8 +61,9 @@ export default class MainCategory extends Component {
                 }
             });
     }
+
     render() {
-        let self = this.state.getList
+        const { getList } = this.state; // Destructure getList from state
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -66,7 +71,9 @@ export default class MainCategory extends Component {
                         <h2 className="mt-30 page-title">Categories</h2>
                     </div>
                     <div className="col-lg-5 col-md-3 col-lg-6 back-btn">
-                        <Button variant="contained" onClick={(e) => this.handleBack()}><i class="fas fa-arrow-left" /> Back</Button>
+                        <Button variant="contained" onClick={() => this.handleBack()}>
+                            <i className="fas fa-arrow-left" /> Back
+                        </Button>
                     </div>
                 </div>
                 <ol className="breadcrumb mb-30">
@@ -83,13 +90,29 @@ export default class MainCategory extends Component {
                                 <div className="news-content-right pd-20">
                                     <div className="form-group">
                                         <label className="form-label">Name*</label>
-                                        <input type="text" className="form-control" placeholder="Category name" name="name" value={this.state.name} onChange={(e) => this.handleChange(e)} />
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Category name"
+                                            name="name"
+                                            value={this.state.name}
+                                            onChange={(e) => this.handleChange(e)}
+                                        />
                                     </div>
                                     <div className="form-group mb-0">
                                         <label className="form-label">Slug*</label>
-                                        <input type="text" className="form-control" placeholder="grocery-staple" name="slug" value={this.state.slug} onChange={(e) => this.handleChange(e)} />
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Embroidery Category"
+                                            name="slug"
+                                            value={this.state.slug}
+                                            onChange={(e) => this.handleChange(e)}
+                                        />
                                     </div>
-                                    <button className="save-btn hover-btn" type="submit" onClick={this.handleSubmit}>Add New</button>
+                                    <button className="save-btn hover-btn" type="submit" onClick={this.handleSubmit}>
+                                        Add New
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +130,9 @@ export default class MainCategory extends Component {
                                                 <table className="table ucp-table table-hover">
                                                     <thead>
                                                         <tr>
-                                                            <th style={{ width: 60 }}><input type="checkbox" className="check-all" /></th>
+                                                            <th style={{ width: 60 }}>
+                                                                <input type="checkbox" className="check-all" />
+                                                            </th>
                                                             <th scope="col">Name</th>
                                                             <th scope="col">Slug</th>
                                                             <th scope="col">Date</th>
@@ -116,9 +141,11 @@ export default class MainCategory extends Component {
                                                     </thead>
                                                     <tbody>
                                                         {
-                                                            self.map((row, index) => (
+                                                            getList.map((row, index) => (
                                                                 <tr key={index}>
-                                                                    <td><input type="checkbox" className="check-item" name="ids[]" defaultValue={5} /></td>
+                                                                    <td>
+                                                                        <input type="checkbox" className="check-item" name="ids[]" value={row.id} />
+                                                                    </td>
                                                                     <td>{row.name}</td>
                                                                     <td>{row.slug}</td>
                                                                     <td>
@@ -141,7 +168,6 @@ export default class MainCategory extends Component {
                     </div>
                 </div>
             </div>
-
-        )
+        );
     }
 }

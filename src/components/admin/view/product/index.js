@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import List from './list';
 import Createproduct from './new-add';
 import Edit from './edit';
-import Uploadphoto from './product-slider';
+
 
 export default class Product extends Component {
     render() {
@@ -15,7 +15,6 @@ export default class Product extends Component {
                         <Route path={[`${match.path}/list`]} component={List} />
                         <Route path={[`${match.path}/edit`]} component={Edit} />
                         <Route path={[`${match.path}/create`]} component={Createproduct} />
-                        <Route path={[`${match.path}/more-photo`]} component={Uploadphoto} />
                     </Switch>
                 </main>
             </div>

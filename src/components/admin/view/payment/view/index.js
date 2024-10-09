@@ -110,8 +110,8 @@ export default class View extends Component {
                                                 <th>Customer</th>
                                                 <th>OrderId</th>
                                                 <th>Transaction Amount</th>
-                                                <th>Payment Type</th>
-                                                <th>Payment Status</th>
+                                                <th>Razorpay Id</th>
+                                                {/* <th>Payment Status</th> */}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -121,11 +121,11 @@ export default class View extends Component {
                                                         <td><input type="checkbox" className="check-item" name="ids[]" defaultValue={7} /></td>
                                                         <td>{++index}</td>
                                                         <td>{row.createdAt}</td>
-                                                        <td>{row.customer? row.customer.firstName+' '+row.customer.lastName:''}</td>
-                                                        <td>{row.orderCreationId}</td>
+                                                        <td>{row.customer.fullName}</td>
+                                                        <td>{row.orderId}</td>
                                                         <td>{row.amount}</td>
-                                                        <td>{row.method}</td>
-                                                        <td>{row.status==="captured"?<span className="text-success">success</span> : <span className="text-danger">failed</span>}</td>
+                                                        <td>{row.razorpayPaymentId}</td>
+                                                        {/* <td>{row.status==="captured"?<span className="text-success">success</span> : <span className="text-danger">failed</span>}</td> */}
                                                         
                                                     </tr>
                                                 ))

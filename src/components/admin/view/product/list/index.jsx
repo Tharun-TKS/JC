@@ -18,6 +18,7 @@ const Arrays = (data, fieldName, fieldValue) => {
     }
     return arrayItem;
 };
+
 export default class List extends Component {
     constructor(props) {
         super(props);
@@ -29,9 +30,11 @@ export default class List extends Component {
             currentPage: 0
         }
     }
+
     handleBack() {
         this.props.history.goBack();
     }
+
     formatDate(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
@@ -43,23 +46,27 @@ export default class List extends Component {
             day = '0' + day;
         return [year, month, day].join('-');
     }
+
     async getProductList() {
-        this.setState({ isloaded: false })
-        let list = await GetProductDetails.getAllProductList();
+        this.setState({ isloaded: false });
+        let list = await GetProductDetails.getAllProductList()
+        console.log(list, "product")
         if (list) {
             var tdata = list.product;
-            var slice = tdata.slice(this.state.offset, this.state.offset + this.state.perPage)
+            var slice = tdata.slice(this.state.offset, this.state.offset + this.state.perPage);
             this.setState({
                 pageCount: Math.ceil(tdata.length / this.state.perPage),
                 orgtableData: tdata,
                 getList: slice,
                 isloaded: true
-            })
+            });
         }
     }
+
     async componentDidMount() {
         this.getProductList();
     }
+
     handleSelectedProduct = async (name, selected) => {
         if (name === "product_id") {
             this.setState({
@@ -72,10 +79,11 @@ export default class List extends Component {
             this.setState({ changed: true });
         }
     }
+
     async handlDeleteById(id) {
         swal({
             title: "Are you sure?",
-            text: "You want to delete Category from the List",
+            text: "You want to delete this product from the List",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -89,16 +97,17 @@ export default class List extends Component {
                 }
             });
     }
+
     handleSubmit = async (event) => {
         event.preventDefault();
-        this.setState({ loading: false })
+        this.setState({ loading: false });
         let list = await GetProductDetails.getProductById(this.state.selectedProduct.value);
         if (list) {
-            this.setState({ getList: list.data, isloaded: true })
+            this.setState({ getList: list.data, isloaded: true });
         }
-
     }
-    //pagination 
+
+    // Pagination
     handlePageClick = (e) => {
         const selectedPage = e.selected;
         const offset = selectedPage * this.state.perPage;
@@ -107,22 +116,20 @@ export default class List extends Component {
             currentPage: selectedPage,
             offset: offset
         }, () => {
-            this.loadMoreData()
+            this.loadMoreData();
         });
-
     };
 
     loadMoreData() {
         const data = this.state.orgtableData;
-
-        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage)
+        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
         this.setState({
             pageCount: Math.ceil(data.length / this.state.perPage),
             getList: slice
-        })
-
+        });
     }
-    //end pagination 
+    // End Pagination
+
     render() {
         const { getList, selectedProduct, isloaded } = this.state;
         return (
@@ -147,7 +154,6 @@ export default class List extends Component {
                     <div className="col-lg-12">
                         <div className="row">
                             <div className="col-lg-8 col-md-8">
-                                {/* <label className="form-label"><b>Select Product*</b></label> */}
                                 <br />
                                 <AutoSelect
                                     className="basic-single"
@@ -155,7 +161,7 @@ export default class List extends Component {
                                     onChange={this.handleSelectedProduct}
                                     isSearchable={true}
                                     name="product_id"
-                                    options={Arrays(getList, "name", "id")}
+                                    options={Arrays(this.state.orgtableData, "name", "id")} // Full product list
                                 />
                             </div>
                             <div className="col-lg-2 col-md-2">
@@ -163,8 +169,6 @@ export default class List extends Component {
                             </div>
                         </div>
                     </div>
-
-
 
                     <div className="col-lg-12 col-md-12">
                         <div className="card card-static-2 mt-30 mb-30">
@@ -180,15 +184,11 @@ export default class List extends Component {
                                                 <th style={{ width: 100 }}>Image</th>
                                                 <th>Name</th>
                                                 <th>Category</th>
-                                                <th>Brand</th>
-                                                <th>Unit</th>
-                                                <th>BuyerPrice</th>
-                                                <th>Seller Price</th>
-                                                {/* <th>Qty</th>
-                                                <th>Discount(%)</th> */}
-                                                <th>Discount</th>
-                                                <th>Total</th>
-                                                <th>Net Price</th>
+                                                <th>Subcategory</th>
+                                                <th>Height</th> {/* New Column for Height */}
+                                                <th>Stitches</th> {/* New Column for Stitches */}
+                                                <th>Variants</th>
+                                                <th>Path</th>
                                                 <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
@@ -200,20 +200,36 @@ export default class List extends Component {
                                                         <td>{row.id}</td>
                                                         <td>
                                                             <div className="cate-img-5">
-                                                                <img src={row.photo} alt="product-name" />
+                                                                <img crossorigin="anonymous" src={row.photo} alt="product-name" />
                                                             </div>
                                                         </td>
                                                         <td>{row.name}</td>
                                                         <td>{row.SubCategory ? row.SubCategory.category.name : '..'}</td>
-                                                        <td>{row.brand}</td>
-                                                        <td>{row.unitSize}</td>
-                                                        <td>&#x20B9;{row.buyerPrice}</td>
-                                                        <td>&#x20B9;{row.price}</td>
-                                                        {/* <td>&#x20B9;{row.qty}</td>
-                                                        <td>{row.discountPer}%</td> */}
-                                                        <td>&#x20B9;{row.discount}</td>
-                                                        <td>&#x20B9;{row.total}</td>
-                                                        <td>&#x20B9;{row.netPrice}</td>
+                                                        <td>{row.SubCategory ? row.SubCategory.sub_name : '..'}</td>
+                                                        <td>{row.height}</td> {/* Display Height */}
+                                                        <td>{row.stitches}</td> {/* Display Stitches */}
+                                                        <td>
+                                                            {row.productvariants.length > 0 ? (
+                                                                row.productvariants.map((variant, idx) => (
+                                                                    <div key={idx}>
+                                                                        <div>{variant.variantName}: &#x20B9;{variant.variantPrice}</div>
+                                                                    </div>
+                                                                ))
+                                                            ) : (
+                                                                'No Variants'
+                                                            )}
+                                                        </td>
+                                                        <td>
+                                                            {row.productvariants.length > 0 ? (
+                                                                row.productvariants.map((variant, idx) => (
+                                                                    <div key={idx}>
+                                                                        <div>{variant.variantPath}</div>
+                                                                    </div>
+                                                                ))
+                                                            ) : (
+                                                                'No Path'
+                                                            )}
+                                                        </td>
                                                         <td>
                                                             {row.status === 'active' ? <span className="badge-item badge-status-success">{row.status}</span> :
                                                                 <span className="badge-item badge-status">{row.status}</span>
@@ -231,7 +247,6 @@ export default class List extends Component {
                                                     </tr>
                                                 ))
                                                 : 'Loading...'
-
                                             }
                                         </tbody>
                                     </table>
@@ -253,8 +268,6 @@ export default class List extends Component {
                     </div>
                 </div>
             </div>
-
-
         )
     }
 }

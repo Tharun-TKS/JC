@@ -28,6 +28,22 @@ const getCategoryList = async () => {
         return null;
     }
 };
+const getAllCategoryList = async () => {
+    try {
+        let result = await api.get(Apis.GetAllCategorySubCategoryList);
+        if (result.data.error) {
+            NotificationManager.error(result.data.error);
+            return null;
+        }
+        return result.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
+
+
 
 const getUpdateCategoryList = async (data) => {
     try {
@@ -113,61 +129,13 @@ const getSelectSubCategory = async (id) => {
         return null;
     }
 };
-const createChildCategory = async (data) => {
-    try {
-        let result = await api.post(Apis.CreateChildCategory,data);
-        if (result.data.error) {
-            NotificationManager.error(result.data.error);
-            return null;
-        }
-        return result.data;
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
-};
 
-const getChildCategoryList = async () => {
-    try {
-        let result = await api.get(Apis.GetAllChildCategoryList);
-        if (result.data.error) {
-            NotificationManager.error(result.data.error);
-            return null;
-        }
-        return result.data;
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
-};
-const getChildDeleteById = async (id) => {
-    try {
-        let result = await api.delete(Apis.GetChildDeleteById,{params: {id}});
-        if (result.data.error) {
-            NotificationManager.error(result.data.error);
-            return null;
-        }
-        return result.data;
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
-};
-const getAllSubChildCategory = async (id) => {
-    try {
-        let result = await api.get(Apis.GetAllSubChildCategory+ `${id}`);
-        if (result.data.error) {
-            NotificationManager.error(result.data.error);
-            return null;
-        }
-        return result.data;
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
-};
+
+
+
 export default {
     createCategoryList,
+    getAllCategoryList,
     getCategoryList,
     getUpdateCategoryList,
     createSubCategoryList,
@@ -175,8 +143,5 @@ export default {
     getUpdateSubList,
     getSubDeleteById,
     getSelectSubCategory,
-    createChildCategory,
-    getChildCategoryList,
-    getChildDeleteById,
-    getAllSubChildCategory
+
 };

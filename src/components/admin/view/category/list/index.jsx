@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
     Button, Typography
 } from "@material-ui/core";
@@ -8,31 +8,46 @@ import swal from 'sweetalert';
 export default class List extends Component {
     constructor(props) {
         super(props);
-        this.state = { getdata: [] }
+        this.state = { 
+            getdata: [], 
+            searchQuery: '', // New state for search query
+            loading: true,   // New state for loading status
+            error: ''        // New state for error messages
+        };
     }
 
     handleBack() {
         this.props.history.goBack();
     }
+
     formatDate(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
             year = d.getFullYear();
-        if (month.length < 2)
-            month = '0' + month;
-        if (day.length < 2)
-            day = '0' + day;
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
         return [year, month, day].join('-');
     }
+
     async getChildCategory() {
-        let list = await GetCategoryDetails.getChildCategoryList();
-        this.setState({ getdata: list.data })
+        try {
+            const response = await GetCategoryDetails.getCategoryList();
+            if (response && response.data) {
+                this.setState({ getdata: response.data, loading: false, error: '' });
+            } else {
+                this.setState({ getdata: [], loading: false, error: 'No categories found.' });
+            }
+        } catch (error) {
+            this.setState({ loading: false, error: 'Failed to fetch categories.' });
+        }
     }
+
     async componentDidMount() {
         this.getChildCategory();
     }
-    async handlDeleteById(id) {
+
+    async handleDeleteById(id) {
         swal({
             title: "Are you sure?",
             text: "You want to delete Category from the List",
@@ -40,17 +55,35 @@ export default class List extends Component {
             buttons: true,
             dangerMode: true,
         })
-            .then(async (success) => {
-                if (success) {
-                    let value = await GetCategoryDetails.getChildDeleteById(id);
-                    if (value) {
-                        this.getChildCategory();
-                    }
+        .then(async (success) => {
+            if (success) {
+                let value = await GetCategoryDetails.getChildDeleteById(id);
+                if (value) {
+                    this.getChildCategory();
                 }
-            });
+            }
+        });
     }
+
+    handleSearchChange(event) {
+        this.setState({ searchQuery: event.target.value });
+    }
+
+    filterCategories(categories, query) {
+        const lowerQuery = query.toLowerCase();
+        return categories.filter(category => 
+            category.name.toLowerCase().includes(lowerQuery)
+        );
+    }
+
     render() {
-        const { getdata } = this.state;
+        const { getdata, searchQuery, loading, error } = this.state;
+        const filteredData = this.filterCategories(getdata, searchQuery);
+
+        if (loading) {
+            return <Typography variant="h6">Loading...</Typography>;
+        }
+
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -58,7 +91,7 @@ export default class List extends Component {
                         <h2 className="mt-30 page-title">Categories</h2>
                     </div>
                     <div className="col-lg-5 col-md-3 col-lg-6 back-btn">
-                        <Button variant="contained" onClick={(e) => this.handleBack()}><i class="fas fa-arrow-left" /> Back</Button>
+                        <Button variant="contained" onClick={() => this.handleBack()}><i className="fas fa-arrow-left" /> Back</Button>
                     </div>
                 </div>
                 <ol className="breadcrumb mb-30">
@@ -67,30 +100,21 @@ export default class List extends Component {
                 </ol>
                 <div className="row justify-content-between">
                     <div className="col-lg-12">
-                        <a href="add_category.html" className="add-btn hover-btn">Add New</a>
-                    </div>
-                    <div className="col-lg-3 col-md-4">
-                        <div className="bulk-section mt-30">
-                            <div className="input-group">
-                                <select id="action" name="action" className="form-control">
-                                    <option selected>Bulk Actions</option>
-                                    <option value={1}>Active</option>
-                                    <option value={2}>Inactive</option>
-                                    <option value={3}>Delete</option>
-                                </select>
-                                <div className="input-group-append">
-                                    <button className="status-btn hover-btn" type="submit">Apply</button>
-                                </div>
-                            </div>
-                        </div>
+                        <a href="/admin/category/create" className="add-btn hover-btn">Add New</a>
                     </div>
                     <div className="col-lg-5 col-md-6">
                         <div className="bulk-section mt-30">
                             <div className="search-by-name-input">
-                                <input type="text" className="form-control" placeholder="Search" />
+                                <input 
+                                    type="text" 
+                                    className="form-control" 
+                                    placeholder="Search" 
+                                    value={searchQuery}
+                                    onChange={(e) => this.handleSearchChange(e)} // Bind search input
+                                />
                             </div>
                             <div className="input-group">
-                                <select id="categeory" name="categeory" className="form-control">
+                                <select id="category" name="category" className="form-control">
                                     <option selected>Active</option>
                                     <option value={1}>Inactive</option>
                                 </select>
@@ -111,31 +135,27 @@ export default class List extends Component {
                                         <thead>
                                             <tr>
                                                 <th style={{ width: 60 }}><input type="checkbox" className="check-all" /></th>
-                                                <th scope="col">Category    </th>
-                                                <th scope="col">Sub Category</th>
-                                                <th scope="col">Item Name</th>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Action</th>
+                                                <th scope="col">Category</th>
+                                                <th scope="col">Slug</th>
+                                                <th scope="col">Created Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {
-                                                getdata.map((row, index) => (
-                                                    <tr key={index}>
-                                                        <td><input type="checkbox" className="check-item" name="ids[]" defaultValue={5} /></td>
-                                                        <td>{row.SubCategory ? row.SubCategory.category.name : ''}</td>
-                                                        <td>{row.SubCategory ? row.SubCategory.sub_name : ''}</td>
-                                                        <td>{row.name}</td>
-                                                        <td>
-                                                            <span className="delivery-time">{this.formatDate(row.createdAt)}</span>
-                                                        </td>
-                                                        <td className="action-btns">
-                                                            {/* <SubEdit state={row} /> */}
-                                                            <Typography className="delete-btn" onClick={(e) => this.handlDeleteById(row.id)} ><i className="fas fa-trash-alt" /></Typography>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            }
+                                            {error && <tr><td colSpan="3">{error}</td></tr>}
+                                            {filteredData.length > 0 ? filteredData.map((category, index) => (
+                                                <tr key={index}>
+                                                    <td><input type="checkbox" className="check-item" name="ids[]" defaultValue={category.id} /></td>
+                                                    <td>{category.name}</td>
+                                                    <td>{category.slug}</td>
+                                                    <td>
+                                                        <span className="delivery-time">{this.formatDate(category.createdAt)}</span>
+                                                    </td>
+                                                </tr>
+                                            )) : (
+                                                <tr>
+                                                    <td colSpan="3">No categories found.</td>
+                                                </tr>
+                                            )}
                                         </tbody>
                                     </table>
                                 </div>
@@ -144,7 +164,6 @@ export default class List extends Component {
                     </div>
                 </div>
             </div>
-
-        )
+        );
     }
 }

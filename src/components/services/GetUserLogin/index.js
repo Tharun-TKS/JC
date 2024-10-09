@@ -1,13 +1,13 @@
 import api from '../../ApiConfig';
 import { Apis } from '../../../config';
 import { NotificationManager } from 'react-notifications';
-import { setCookie,getCookie, eraseCookie } from '../../../function';
+import { setCookie, getCookie, eraseCookie } from '../../../function';
 
 const getUserLogin = async (data) => {
     try {
-        let result = await api.post(Apis.GetUserLogin,data,{
-            withCredentials: true,
-            headers: {'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'}
+        let result = await api.post(Apis.GetUserLogin, data, {
+
+            headers: { 'Content-Type': 'application/json' }
         });
         if (result.data.error) {
             NotificationManager.error(result.data.error);
@@ -22,7 +22,7 @@ const getUserLogin = async (data) => {
 
 const getUserRegister = async (data) => {
     try {
-        let result = await api.post(Apis.GetUserRegsiter,data);
+        let result = await api.post(Apis.GetUserRegsiter, data);
         if (result.data.error) {
             NotificationManager.error(result.data.error);
             return null;
@@ -50,7 +50,7 @@ const getAllUserList = async () => {
 
 const getUserUpdate = async (data) => {
     try {
-        let result = await api.post(Apis.GetUserUpdate,data);
+        let result = await api.post(Apis.GetUserUpdate, data);
         if (result.data.error) {
             NotificationManager.error(result.data.error);
             return null;
@@ -64,7 +64,7 @@ const getUserUpdate = async (data) => {
 
 const getDeleteUserList = async (id) => {
     try {
-        let result = await api.post(Apis.GetDeleteUserList,{
+        let result = await api.post(Apis.GetDeleteUserList, {
             id: id
         });
         if (result.data.error) {
@@ -79,14 +79,14 @@ const getDeleteUserList = async (id) => {
 };
 
 const authenticate = (user, next) => {
-    if(typeof window !=="undefined"){
+    if (typeof window !== "undefined") {
         setCookie('token', user.token, 30);
         setCookie('role', user.role, 30);
         next();
     }
 };
-const logout = ( next) => {
-    if(typeof window !=="undefined"){
+const logout = (next) => {
+    if (typeof window !== "undefined") {
         eraseCookie('token');
         eraseCookie('role');
         eraseCookie('XSRF-token');
@@ -96,13 +96,13 @@ const logout = ( next) => {
     }
 };
 
-const isAuthenticate = ( next) => {
-    if(typeof window !=="undefined"){
+const isAuthenticate = (next) => {
+    if (typeof window !== "undefined") {
         return false
     }
-    if(getCookie('token')){
+    if (getCookie('token')) {
         return JSON.stringify(getCookie('token'));
-    }else{
+    } else {
         false
     }
 };

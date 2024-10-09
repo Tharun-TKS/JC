@@ -26,3 +26,30 @@ export default class App extends Component {
 	}
 }
 
+
+
+// import React, { Component } from 'react';
+// import rootRoutes from './components/admin/rootRoutes';
+// import Auth from './components/auth';
+// import NoMatch from './components/nomatch';
+// import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+// import { NotificationContainer } from "react-notifications";
+// import "react-notifications/lib/notifications.css";
+
+// export default class App extends Component {
+// 	render() {
+// 		return (
+// 			<div className="App">
+// 				<BrowserRouter>
+// 					<NotificationContainer />
+// 					<Switch>
+// 						<Route path='/auth' component={Auth} />
+// 						<Route path='/admin' component={rootRoutes} />
+// 						<Route component={NoMatch} />
+// 						<Redirect from="/" to="/auth/login" />
+// 					</Switch>
+// 				</BrowserRouter>
+// 			</div>
+// 		);
+// 	}
+// }
