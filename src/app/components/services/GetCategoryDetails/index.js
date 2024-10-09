@@ -16,6 +16,20 @@ const getAllCategoryList = async (slug) => {
     }
 };
 
+const getAllCategorySubCategoryList = async () => {
+    try {
+        let result = await api.get(Apis.GetAllCategorySubCategoryList);
+        if (result.data.error) {
+            NotificationManager.error(result.data.error);
+            return null;
+        }
+        return result.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
 const getFilterByCategory = async (data) => {
     try {
         let result = await api.get(Apis.GetFilterByCategory+`/${data.slug}/${data.id}`);
@@ -34,4 +48,5 @@ const getFilterByCategory = async (data) => {
 export default {
     getAllCategoryList,
     getFilterByCategory,
+    getAllCategorySubCategoryList
 };

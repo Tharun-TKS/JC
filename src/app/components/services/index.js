@@ -5,7 +5,7 @@ export {default as GetOrderDetails} from './GetOrderDetails';
 export {default as CartHelper} from './CartHelper';
 export {default as GetCategoryDetails} from './GetCategoryDetails';
 export {default as GetLocationDetails} from './GetLocationDetails';
-
-
+export {default as GetWishListDetails} from './GetWishListDetails';
+export {default as GetAddressDetails} from './GetAddressDetails';
 
 

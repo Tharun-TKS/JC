@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'; // Make sure to import Link
 
 export default class Footer extends Component {
     render() {
@@ -7,84 +8,65 @@ export default class Footer extends Component {
                 {/* Footer */}
                 <section className="section-padding bg-white border-top">
                     <div className="container">
-                        <div className="row">
-                            <div className="col-lg-4 col-sm-6">
-                                <div className="feature-box">
-                                    <i className="mdi mdi-truck-fast" />
-                                    <h6>Free &amp; Next Day Delivery</h6>
-                                    <p>Lorem ipsum dolor sit amet, cons...</p>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 col-sm-6">
-                                <div className="feature-box">
-                                    <i className="mdi mdi-basket" />
-                                    <h6>100% Satisfaction Guarantee</h6>
-                                    <p>Rorem Ipsum Dolor sit amet, cons...</p>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 col-sm-6">
-                                <div className="feature-box">
-                                    <i className="mdi mdi-tag-heart" />
-                                    <h6>Great Daily Deals Discount</h6>
-                                    <p>Sorem Ipsum Dolor sit amet, Cons...</p>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </section>
 
+
                 <section className="section-padding footer bg-white border-top">
-                    <div className="container">
+                    <div className="container" style={{ fontSize: "13px" }}>
                         <div className="row">
                             <div className="col-lg-3 col-md-3">
-                                <h4 className="mb-5 mt-0"><a className="logo" href="index.html"><img src="img/logo-footer.png" alt="CitwaShop" /></a></h4>
-                                <p className="mb-0"><a className="text-dark" href="#"><i className="mdi mdi-phone" /> +61 525 240 310</a></p>
-                                <p className="mb-0"><a className="text-dark" href="#"><i className="mdi mdi-cellphone-iphone" /> 12345 67890, 56847-98562</a></p>
+                                <h4 className="mb-5 mt-0"><a className="logo" href="/"><img src="img/footerlogo.webp" alt="JC Creations" /></a></h4>
+                                <p className="mb-0"><a className="text-dark" href="#"><i className="mdi mdi-phone" /> +91 8310 726 160</a></p>
+
                             </div>
                             <div className="col-lg-2 col-md-2">
-                                <h6 className="mb-4">TOP CITIES </h6>
+                                <h6 className="mb-4">Customer Service </h6>
                                 <ul>
-                                    <li><a href="#">New Delhi</a></li>
-                                    <li><a href="#">Bengaluru</a></li>
-                                    <li><a href="#">Hyderabad</a></li>
-                                    <li><a href="#">Kolkata</a></li>
-                                    <li><a href="#">Gurugram</a></li>
+                                    <li><a href="/contact-us">Contact Us</a></li>
+                                    <li><a href="/sitemap">Site Map</a></li>
+
                                     <ul>
                                     </ul></ul></div>
+
                             <div className="col-lg-2 col-md-2">
-                                <h6 className="mb-4">CATEGORIES</h6>
+                                <h6 className="mb-4">
+                                    Company Information
+                                </h6>
                                 <ul>
-                                    <li><a href="#">Vegetables</a></li>
-                                    <li><a href="#">Grocery &amp; Staples</a></li>
-                                    <li><a href="#">Breakfast &amp; Dairy</a></li>
-                                    <li><a href="#">Soft Drinks</a></li>
-                                    <li><a href="#">Biscuits &amp; Cookies</a></li>
+
+                                    <Link to="/about-us" style={{ textDecoration: 'none', color: 'blue' }}>
+                                        About Us
+                                    </Link>
+
+                                    <li><a href="/pricing">Pricing</a></li>
+                                    <li><a href="/returnsandcancellation">Return & Cancalation Policy</a></li>
+                                    <li><a href="/privacy-policy">Privacy Policy</a></li>
+                                    <li><a href="/terms-and-conditions">Terms & Conditions</a></li>
+
+
                                     <ul>
                                     </ul></ul></div>
-                            <div className="col-lg-2 col-md-2">
-                                <h6 className="mb-4">ABOUT US</h6>
+                            {/* <div className="col-lg-2 col-md-2">
+                                <h6 className="mb-4">My Account</h6>
                                 <ul>
-                                    <li><a href="#">Company Information</a></li>
-                                    <li><a href="#">Careers</a></li>
-                                    <li><a href="#">Store Location</a></li>
-                                    <li><a href="#">Affillate Program</a></li>
-                                    <li><a href="#">Copyright</a></li>
+                                    <li><a href="#">My Account</a></li>
+                                    <li><a href="#">Order History</a></li>
+                                    <li><a href="#">Wish List</a></li>
+                                    <li><a href="#">Newsletter</a></li>
                                     <ul>
-                                    </ul></ul></div>
+                                    </ul></ul></div> */}
                             <div className="col-lg-3 col-md-3">
-                                <h6 className="mb-4">Download App</h6>
-                                <div className="app">
-                                    <a href="#"><img src="img/google.png" alt /></a>
-                                    <a href="#"><img src="img/apple.png" alt /></a>
-                                </div>
+
                                 <h6 className="mb-3 mt-4">GET IN TOUCH</h6>
                                 <div className="footer-social">
                                     <a className="btn-facebook" href="#"><i className="mdi mdi-facebook" /></a>
                                     <a className="btn-twitter" href="#"><i className="mdi mdi-twitter" /></a>
                                     <a className="btn-instagram" href="#"><i className="mdi mdi-instagram" /></a>
                                     <a className="btn-whatsapp" href="#"><i className="mdi mdi-whatsapp" /></a>
-                                    <a className="btn-messenger" href="#"><i className="mdi mdi-facebook-messenger" /></a>
-                                    <a className="btn-google" href="#"><i className="mdi mdi-google" /></a>
+
+
                                 </div>
                             </div>
                         </div>
@@ -96,9 +78,9 @@ export default class Footer extends Component {
                     <div className="container">
                         <div className="row no-gutters">
                             <div className="col-lg-6 col-sm-6">
-                                <p className="mt-1 mb-0">© Copyright 2020 <strong className="text-dark">ChitwaShop</strong>. All Rights Reserved<br />
-                                    <small className="mt-0 mb-0">Made with <i className="mdi mdi-heart text-danger" /> by Ranchi
-                                    </small>
+                                <p className="mt-1 mb-0">© Copyright 2024 <strong className="text-dark">JC Creations</strong>. All Rights Reserved<br />
+                                    {/* <small className="mt-0 mb-0">Made by Beyondwave Technologies Private Limited
+                                    </small> */}
                                 </p>
                             </div>
                         </div>

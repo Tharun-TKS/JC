@@ -58,6 +58,26 @@ const getCategoryListByFilter = async (data) => {
     }
 };
 
+const getProductByCategory = async (categoryId) => {
+    try {
+      // Make sure to include categoryId in the URL as a query parameter
+      let result = await api.get(`${Apis.GetProductByCategory}?categoryId=${categoryId}`);
+  
+      if (result.data.error) {
+        NotificationManager.error(result.data.error);
+        return null;
+      }
+  
+      return result.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+  
+  
+  
+  
 const getProductBySubcategory = async (data) => {
     try {
         let result = await api.post(Apis.GetProductBySubcategory,data);
@@ -72,10 +92,49 @@ const getProductBySubcategory = async (data) => {
     }
 };
 
+
+
+const getProductByTagSearch= async (tag) => {
+    try {
+      // Make sure to include tag in the URL as a query parameter
+      let result = await api.get(`${Apis.GetProductByTagSearch}?tag=${tag}`);
+      console.log(result.data)
+  
+      if (result.data.error) {
+        NotificationManager.error(result.data.error);
+        return null;
+      }
+  
+      return result.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
+  const getAllProductSearchList = async () => {
+    try {
+        let result = await api.get(Apis.GetProductSearchList);
+        if (result.data.error) {
+            NotificationManager.error(result.data.error);
+            return null;
+        }
+        return result.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
+
+
 export default {
     getProductById,
     getAllProductList,
     getProductByFilter,
     getCategoryListByFilter,
-    getProductBySubcategory
+    getProductByCategory,
+    getProductBySubcategory,
+    getProductByTagSearch,
+    getAllProductSearchList,
 };

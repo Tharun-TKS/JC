@@ -5,7 +5,7 @@
 .gambo-Breadcrumb {
     background: #fff;
     border-top: 1px solid #efefef;
-    padding: 5px 0;
+    padding-top: 15px;
 }
 
 .gambo-Breadcrumb .breadcrumb {
@@ -1147,9 +1147,10 @@ label.control-label {
 /* --- User Dashboard Page --- */
 
 .dashboard-group {
-    background: rgba(245,93,44, 0.3);
+    background: rgba(61, 154, 240, 0.3);
     position: relative;
-    padding: 50px 0;
+    padding: 20px 0;
+    height: 220px !important;
 }
 
 .dashboard-group:before {

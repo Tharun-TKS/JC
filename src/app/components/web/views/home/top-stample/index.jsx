@@ -1,180 +1,138 @@
-import React, { Component } from 'react'
-import Slider from "react-slick";
-export default class Topstample extends Component {
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { NotificationManager } from 'react-notifications';
+import { GetProductDetails, GetWishListDetails, GetUserLogin } from '../../../../services'; // example path
+import './slider.css'; // Optional: Include your custom CSS for styles
+
+class Topstample extends Component {
+   
+    constructor(props) {
+        super(props);
+        this.state = {
+            productlist: [],
+            isLoaded: false,
+            wishlist: [], // To store wishlist items
+            custId: null // Initialize custId state
+        };
+    }
+
+    async componentDidMount() {
+        const categoryId = '110'; // Replace with actual category ID
+        const response = await GetProductDetails.getProductByCategory(categoryId);
+
+        if (response) {
+            this.setState({
+                productlist: response.data,
+                isLoaded: true
+            });
+        } else {
+            this.setState({
+                isLoaded: true
+            });
+        }
+
+        let email = sessionStorage.getItem('email');
+        if (email) {
+            let user = await GetUserLogin.getCustomerDetail(email);
+            if (user) {
+                this.setState({ custId: user.data.id }); // Store the custId
+            }
+        }
+    }
+
+    toggleWishlist = (productId) => {
+        const { wishlist } = this.state;
+        const isProductInWishlist = wishlist.includes(productId);
+
+        if (isProductInWishlist) {
+            this.setState({ wishlist: wishlist.filter(id => id !== productId) });
+        } else {
+            this.setState({ wishlist: [...wishlist, productId] });
+        }
+    };
+
+    handleAddToWishlistClick = async (productId) => {
+        const { custId } = this.state;
+
+        if (!custId) {
+            NotificationManager.error('Please log in to add items to your wishlist.');
+            return;
+        }
+
+        const data = { custId: custId, productId: productId };
+
+        try {
+            let result = await GetWishListDetails.addWishlistItem(data); // Call service function
+            if (result) {
+                NotificationManager.success('Added to wishlist!');
+                this.toggleWishlist(productId); // Toggle wishlist after adding
+            } else {
+                NotificationManager.error('Product is already in your wishlist.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            NotificationManager.error('An error occurred while adding to the wishlist.');
+        }
+    };
+
     render() {
-        var settings = {
-            dots: false,
-            infinite: false,
-            speed: 500,
-            slidesToShow: 5,
-            slidesToScroll: 4,
-            initialSlide: 0,
-            responsive: [
-              {
-                breakpoint: 1024,
-                settings: {
-                  slidesToShow: 3,
-                  slidesToScroll: 3,
-                  infinite: true,
-                  dots: false
-                }
-              },
-              {
-                breakpoint: 768,
-                settings: {
-                  slidesToShow: 3,
-                  slidesToScroll: 3,
-                  initialSlide: 3
-                }
-              },
-              {
-                breakpoint: 600,
-                settings: {
-                  slidesToShow: 2,
-                  slidesToScroll: 2,
-                  initialSlide: 2
-                }
-              },
-              {
-                breakpoint: 480,
-                settings: {
-                  slidesToShow: 1,
-                  slidesToScroll: 1
-                }
-              }
-            ]
-          };
+        const { productlist, isLoaded, wishlist } = this.state;
+        const limitedProductList = productlist.slice(0, 18); // Limit to 18 items
+
         return (
             <div>
-                 {/* New Item slider */}
-                 <section className="product-items-slider section-padding">
-                    <div className="container" id="header-category-bk">
-                        <div className="section-header">
-                            <span>For You</span>
-                            <h5 className="heading-design-h5">Top Stample  {/* <span className="badge badge-primary">20% OFF</span> */}
-                                <a className="float-right text-secondary" >View All</a>
-                            </h5>
+                <section className="product-items-slider section-padding">
+                    <div className="container" id="header-category-bk" style={{ padding: '0 15px' }}>
+                        <div className="section-header text-center">
+                            <h2>Top Sellers</h2>
+                            <br />
                         </div>
-                        <Slider {...settings}>
-                            <div className="item">
-                                <div className="product">
-                                    <a href="single.html">
-                                        <div className="product-header">
-                                            <span className="badge badge-success">50% OFF</span>
-                                            <img className="img-fluid" src="img/product/nehar-oil.jpeg" alt="product" />
-                                            <span className="veg text-success mdi mdi-circle" />
-                                        </div>
-                                        <div className="product-body">
-                                            <h5>Product Title Here</h5>
-                                            <h6><strong><span className="mdi mdi-approval" /> Available in</strong> - 500 gm</h6>
-                                        </div>
-                                        <div className="product-footer">
-                                            <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline" /> Add To Cart</button>
-                                            <p className="offer-price mb-0">$450.99 <i className="mdi mdi-tag-outline" /><br /><span className="regular-price">$800.99</span></p>
-                                        </div>
-                                    </a>
+                        <div className="row justify-content-center">
+                            {!isLoaded ? (
+                                <div className="progress-bar-bk">
+                                    <CircularProgress color="secondary" />
                                 </div>
-                            </div>
-                            <div className="item">
-                                <div className="product">
-                                    <a href="single.html">
-                                        <div className="product-header">
-                                            <span className="badge badge-success">50% OFF</span>
-                                            <img className="img-fluid" src="img/product/new-product.jpeg" alt="product" />
-                                            <span className="non-veg text-danger mdi mdi-circle" />
+                            ) : (
+                                limitedProductList.map((row, index) => (
+                                    <div key={index} className="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                                        <div className="product" style={{ backgroundColor: "black" }}>
+                                            <Link to={`/p/${row.id}`}>
+                                                <div className="product-header">
+                                                    <img crossOrigin='anonymous' className="img-fluid" src={row.photo} alt={row.name} />
+                                                </div>
+                                                <div className="product-body">
+                                                    <h6 style={{ display: "none" }}>
+                                                        <strong>
+                                                            <span className="mdi mdi-approval" /> Code
+                                                        </strong> - {row.slug}
+                                                    </h6>
+                                                </div>
+                                            </Link>
+                                            <div className="product-footer">
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-secondary btn-sm float-right"
+                                                    onClick={() => this.handleAddToCartClick(row)}
+                                                >
+                                                     View Product
+                                                </button>
+                                                <i
+                                                    className={`mdi ${wishlist.includes(row.id) ? 'mdi-heart' : 'mdi-heart-outline'} wishlist-icon`}
+                                                    onClick={() => this.handleAddToWishlistClick(row.id)} 
+                                                    style={{ cursor: 'pointer', marginLeft: '10px', color: 'gold' }} // Set color to gold for both
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="product-body">
-                                            <h5>Product Title Here</h5>
-                                            <h6><strong><span className="mdi mdi-approval" /> Available in</strong> - 500 gm</h6>
-                                        </div>
-                                        <div className="product-footer">
-                                            <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline" /> Add To Cart</button>
-                                            <p className="offer-price mb-0">$450.99 <i className="mdi mdi-tag-outline" /><br /><span className="regular-price">$800.99</span></p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="product">
-                                    <a href="single.html">
-                                        <div className="product-header">
-                                            <span className="badge badge-success">50% OFF</span>
-                                            <img className="img-fluid" src="img/product/big-3.jpg" alt="product" />
-                                            <span className="non-veg text-danger mdi mdi-circle" />
-                                        </div>
-                                        <div className="product-body">
-                                            <h5>Product Title Here</h5>
-                                            <h6><strong><span className="mdi mdi-approval" /> Available in</strong> - 500 gm</h6>
-                                        </div>
-                                        <div className="product-footer">
-                                            <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline" /> Add To Cart</button>
-                                            <p className="offer-price mb-0">$450.99 <i className="mdi mdi-tag-outline" /><br /><span className="regular-price">$800.99</span></p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="product">
-                                    <a href="single.html">
-                                        <div className="product-header">
-                                            <span className="badge badge-success">50% OFF</span>
-                                            <img className="img-fluid" src="img/product/biscuit.jpeg" alt="product" />
-                                            <span className="veg text-success mdi mdi-circle" />
-                                        </div>
-                                        <div className="product-body">
-                                            <h5>Product Title Here</h5>
-                                            <h6><strong><span className="mdi mdi-approval" /> Available in</strong> - 500 gm</h6>
-                                        </div>
-                                        <div className="product-footer">
-                                            <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline" /> Add To Cart</button>
-                                            <p className="offer-price mb-0">$450.99 <i className="mdi mdi-tag-outline" /><br /><span className="regular-price">$800.99</span></p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="product">
-                                    <a href="/">
-                                        <div className="product-header">
-                                            <span className="badge badge-success">50% OFF</span>
-                                            <img className="img-fluid" src="img/product/img-1.jpg" alt="product" />
-                                            <span className="veg text-success mdi mdi-circle" />
-                                        </div>
-                                        <div className="product-body">
-                                            <h5>Product Title Here</h5>
-                                            <h6><strong><span className="mdi mdi-approval" /> Available in</strong> - 500 gm</h6>
-                                        </div>
-                                        <div className="product-footer">
-                                            <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline" /> Add To Cart</button>
-                                            <p className="offer-price mb-0">$450.99 <i className="mdi mdi-tag-outline" /><br /><span className="regular-price">$800.99</span></p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="item">
-                                <div className="product">
-                                    <a href="single.html">
-                                        <div className="product-header">
-                                            <span className="badge badge-success">50% OFF</span>
-                                            <img className="img-fluid" src="img/product/img-2.jpg" alt="product" />
-                                            <span className="veg text-success mdi mdi-circle" />
-                                        </div>
-                                        <div className="product-body">
-                                            <h5>Product Title Here</h5>
-                                            <h6><strong><span className="mdi mdi-approval" /> Available in</strong> - 500 gm</h6>
-                                        </div>
-                                        <div className="product-footer">
-                                            <button type="button" className="btn btn-secondary btn-sm float-right"><i className="mdi mdi-cart-outline" /> Add To Cart</button>
-                                            <p className="offer-price mb-0">$450.99 <i className="mdi mdi-tag-outline" /><br /><span className="regular-price">$800.99</span></p>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </Slider>
+                                    </div>
+                                ))
+                            )}
+                        </div>
                     </div>
                 </section>
-                {/* End New item slider */}
             </div>
-        )
+        );
     }
 }
+
+export default withRouter(Topstample);

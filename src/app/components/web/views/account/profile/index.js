@@ -7,21 +7,21 @@ export default class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            token: '', user: '', firstName: '', lastName: '', phoneNo: '', email: ''
+            token: '', user: '', fullName: '', phoneNo: '', email: ''
         };
     }
     handleChangeUser(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-    
+
         this.setState({
-          user: {
-            ...this.state.user,
-            [name]: value
-          }
+            user: {
+                ...this.state.user,
+                [name]: value
+            }
         });
-      }
+    }
     async componentDidMount() {
         let email = sessionStorage.getItem('email')
         if (email) {
@@ -37,22 +37,24 @@ export default class Profile extends Component {
     }
     handleSubmit = async (event) => {
         event.preventDefault();
-        const { id, firstName, lastName, phone, email, gender } = this.state.user;
-        const data = { id: id, firstName: firstName, lastName: lastName, phone: phone, email: email, gender: gender };
+        const { id, fullName, phone, email, gender } = this.state.user;
+        const data = { id: id, fullName: fullName, phone: phone, email: email, gender: gender };
         let user = await GetUserLogin.getCustomerUpdate(data);
         if (user) {
-          NotificationManager.success("Successfully Update", "Profile");
+            NotificationManager.success("Successfully Update", "Profile");
         }
         else {
-          NotificationManager.error("Please check your Field", "Input Error");
+            NotificationManager.error("Please check your Field", "Input Error");
         }
-    
-      }
+
+    }
     render() {
         let { user } = this.state;
         console.log("Profile -> render -> user", user)
         return (
-            <div className="wrapper">
+
+            <div className="wrapper" >
+
                 <div className="gambo-Breadcrumb">
                     <div className="container">
                         <div className="row">
@@ -67,8 +69,8 @@ export default class Profile extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="dashboard-group">
-                    <div className="container">
+                <div className="dashboard-group" >
+                    <div className="container" >
                         <div className="row">
                             <div className="col-lg-12">
                                 <div className="user-dt">
@@ -79,8 +81,8 @@ export default class Profile extends Component {
                                             <label htmlFor="file"><i className="uil uil-camera-plus" /></label>
                                         </div>
                                     </div>
-                                    <h4>{user.firstName}</h4>
-                                    <p>+977 {user.phone}</p>
+                                    <h4>{user.fullName}</h4>
+                                    <p>+91 {user.phone}</p>
                                     {/* <div className="earn-points"><img src="images/Dollar.svg" alt />Points : <span>20</span></div> */}
                                 </div>
                             </div>
@@ -96,7 +98,7 @@ export default class Profile extends Component {
                                         <a href="/account/view" className="user-item"><i className="uil uil-apps" />Overview</a>
                                         <a href="/account/profile" className="user-item active"><i className="mdi mdi-account-outline" />My profile</a>
                                         <a href="/account/order/list" className="user-item"><i className="uil uil-box" />My Orders</a>
-                                        <a href="/account/rewards" className="user-item"><i className="uil uil-gift" />My Rewards</a>
+                                        {/* <a href="/account/rewards" className="user-item"><i className="uil uil-gift" />My Rewards</a> */}
                                         <a href="/account/wishlist" className="user-item"><i className="uil uil-heart" />Shopping Wishlist</a>
                                         <a href="/account/address" className="user-item"><i className="uil uil-location-point" />My Address</a>
                                         <a className="user-item" onClick={this.handleLogout}><i className="uil uil-exit" />Logout</a>
@@ -117,22 +119,17 @@ export default class Profile extends Component {
                                                     <div className="row">
                                                         <div className="col-sm-6">
                                                             <div className="form-group">
-                                                                <label className="control-label">First Name <span className="required">*</span></label>
-                                                                <input className="form-control border-form-control" type="text" name="firstName" value={user.firstName} onChange={(e) => this.handleChangeUser(e)}  />
+                                                                <label className="control-label">Full Name <span className="required">*</span></label>
+                                                                <input className="form-control border-form-control" type="text" name="fullName" value={user.fullName} onChange={(e) => this.handleChangeUser(e)} />
                                                             </div>
                                                         </div>
-                                                        <div className="col-sm-6">
-                                                            <div className="form-group">
-                                                                <label className="control-label">Last Name <span className="required">*</span></label>
-                                                                <input className="form-control border-form-control" type="text" name="lastName" value={user.lastName} onChange={(e) => this.handleChangeUser(e)}  />
-                                                            </div>
-                                                        </div>
+
                                                     </div>
                                                     <div className="row">
                                                         <div className="col-sm-6">
                                                             <div className="form-group">
                                                                 <label className="control-label">Phone <span className="required">*</span></label>
-                                                                <input className="form-control border-form-control" type="number" name="phone" value={user.phone} onChange={(e) => this.handleChangeUser(e)}  />
+                                                                <input className="form-control border-form-control" disabled type="number" name="phone" value={user.phone} />
                                                             </div>
                                                         </div>
                                                         <div className="col-sm-6">
@@ -142,7 +139,7 @@ export default class Profile extends Component {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div className="row">
+                                                    {/* <div className="row">
                                                         <div className="form-group col-lg-6">
                                                             <label>Gender</label>
                                                             <div className="chek-form">
@@ -165,11 +162,11 @@ export default class Profile extends Component {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                     <div className="row">
                                                         <div className="col-sm-12 text-right">
                                                             <button type="button" className="btn btn-danger btn-lg"> Cencel </button>
-                                                            <button type="button" className="btn btn-success btn-lg"  onClick={this.handleSubmit}> Save Changes </button>
+                                                            <button type="button" className="btn btn-success btn-lg" onClick={this.handleSubmit}> Save Changes </button>
                                                         </div>
                                                     </div>
                                                 </form>

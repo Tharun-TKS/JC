@@ -1,0 +1,55 @@
+/* Tab Section Styles */
+.tabsection-menu {
+    display: flex;
+    align-items: center;
+    background-color: #1a1ef1; /* Blue background for tab section */
+  }
+  
+  .dropdown-menu {
+    min-width: 200px;
+    z-index: 1050; /* Ensure dropdowns are above other content */
+  }
+  
+  .dropdown-submenu {
+    position: relative;
+  }
+  
+  .dropdown-submenu .dropdown-menu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    margin-top: -1px;
+    border-radius: 0;
+  }
+  
+  .dropdown-submenu:hover .dropdown-menu,
+  .dropdown-submenu .dropdown-menu.show {
+    display: block;
+  }
+  
+  .navbar-toggler {
+    background: none;
+    border: none;
+  }
+  
+  /* Mobile Styles */
+  @media (max-width: 767px) {
+    .navbar-nav {
+      display: block;
+    }
+  
+    .dropdown-menu {
+      position: static;
+    }
+  
+    .dropdown-submenu .dropdown-menu {
+      position: static;
+      margin-left: 0;
+    }
+  
+    .dropdown-menu.show {
+      display: block;
+    }
+  }
+  

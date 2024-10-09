@@ -1,34 +1,123 @@
 .section145 {
-    padding: 47px 0 0;
+    padding: 0;
     width: 100%;
     display: block;
 }
-.main-title-tt {
-    margin-bottom: 27px;
+
+.backbanner {
+    object-fit: cover; /* Ensure the image covers the entire area */
+    margin-top: -10px; /* Default margin for desktop view */
+    height: 45vh; /* 45% of viewport height */
+    width: 100%; /* Full width for larger screens */
+}
+
+@media (max-width: 768px) {
+    .backbanner {
+        margin-top: 45px; /* Increase margin for mobile devices */
+        width: 100%; /* Full width for mobile */
+        height: auto; /* Auto height for better responsiveness */
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .backbanner {
+        margin-top: 10px; /* Smaller margin for tablet/medium devices */
+        height: 40vh; /* Reduce height to avoid blank space */
+    }
+}
+
+.search-form {
+    margin-top: 20px;
     display: flex;
-    align-items: flex-end;
-}
-.main-title-left {
-    margin-right: auto;
-}
-.main-title-left span {
-    font-size: 14px;
-    font-weight: 600;
-    text-align: left;
-    color: #f55d2c;
+    justify-content: center;
     margin-bottom: 10px;
-    display: block;
+    position: relative; /* Position for absolute positioning of suggestions */
 }
-.main-title-left h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #2b2f4c;
-    margin-top: 0;
-    display: block;
+
+.search-box {
+    padding: 10px;
+    width: 50%; /* Use a fixed width */
+    max-width: 400px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
 }
-.best-offer-item {
-    display: block;
-    width: 100%;
-    margin-bottom: 30px;
-    position: relative;
+
+.search-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+.product-info {
+    margin-top: 20px;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+/* Updated suggestions-box */
+.suggestions-box {
+    position: absolute; /* Keep absolute positioning */
+    z-index: 1000; /* Ensure it appears above other elements */
+    background-color: white; /* Set a background color */
+    border: 1px solid #ccc; /* Optional: add border for clarity */
+    width: calc(50% - 20px); /* Match width with search box, accounting for margins */
+    left: 50%; /* Align to the center */
+    transform: translateX(-50%); /* Center the box */
+    max-height: 200px; /* Set a max height */
+    overflow-y: auto; /* Add scroll if content exceeds max height */
+    margin-top: 5px; /* Small space between the search box and suggestions */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
+}
+
+/* Adjusted suggestion-item */
+.suggestion-item {
+    display: flex;
+    padding: 10px; /* Add padding for suggestion items */
+    cursor: pointer; /* Show pointer on hover */
+    width: calc(100% - 20px); /* Ensure it does not exceed the width */
+    box-sizing: border-box; /* Include padding in the width calculation */
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0; /* Change background on hover */
+}
+
+.suggestion-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+/* Left-aligning the content */
+.suggestion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align to the top */
+    text-align: left; /* Left-align text */
+}
+
+.suggestion-content h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.suggestion-content p {
+    margin: 0;
+    font-size: 14px;
+    color: #777;
 }

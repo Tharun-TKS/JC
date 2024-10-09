@@ -1,0 +1,18 @@
+/* slider.css */
+
+.product {
+    border: 1px solid #ddd; /* Optional: Add a border for better visibility */
+    border-radius: 5px; /* Optional: Rounded corners */
+    padding: 15px; /* Optional: Padding around product */
+    text-align: center; /* Center text */
+    background-color: #fff; /* Optional: Background color */
+}
+
+.product-header img {
+    max-height: 200px; /* Optional: Set a max height for product images */
+    object-fit: cover; /* Maintain aspect ratio */
+}
+
+.product-footer {
+    margin-top: 10px; /* Space above the button */
+}

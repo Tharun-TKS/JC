@@ -1,115 +1,137 @@
-import React, { Component } from 'react'
-import Slider from "react-slick";
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import GroceryStampleDetails from '../../../../services/GroceryStampleDetails';
-import { addToCart } from '../../../../../store/actions/cartActions';
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { NotificationManager } from 'react-notifications';
+import './slider.css'; // Optional: Include your custom CSS for styles
+import { GetProductDetails, GetUserLogin, GetWishListDetails } from '../../../../services'; // example path
+
 class Topsavers extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            productlist: [],isloaded:false
-        }
-    }
-    async componentDidMount() {
-        let list = await GroceryStampleDetails.getAllGroceryStaple();
-        if(list){
-            this.setState({ productlist: list.data, isloaded:true })
-        }
-    }
-    render() {
-        let list = this.state.productlist.products;
-        var settings = {
-            dots: false,
-            infinite: false,
-            speed: 500,
-            slidesToShow: 5,
-            slidesToScroll: 4,
-            initialSlide: 0,
-            responsive: [
-                {
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                        infinite: true,
-                        dots: false
-                    }
-                },
-                {
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3,
-                        initialSlide: 3
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 2,
-                        initialSlide: 2
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1
-                    }
-                }
-            ]
+            productlist: [],
+            isLoaded: false,
+            wishlist: [], // To store wishlist items
+            custId: null // Initialize custId state
         };
+    }
+
+    async componentDidMount() {
+        const categoryId = '118'; // Replace with actual category ID
+        const response = await GetProductDetails.getProductByCategory(categoryId);
+
+        if (response) {
+            this.setState({
+                productlist: response.data,
+                isLoaded: true
+            });
+        } else {
+            this.setState({
+                isLoaded: true
+            });
+        }
+
+        let email = sessionStorage.getItem('email');
+        if (email) {
+            let user = await GetUserLogin.getCustomerDetail(email);
+            if (user) {
+                this.setState({ custId: user.data.id }); // Store the custId
+            }
+        }
+    }
+
+    toggleWishlist = (productId) => {
+        const { wishlist } = this.state;
+        const isProductInWishlist = wishlist.includes(productId);
+
+        if (isProductInWishlist) {
+            this.setState({ wishlist: wishlist.filter(id => id !== productId) });
+        } else {
+            this.setState({ wishlist: [...wishlist, productId] });
+        }
+    };
+
+    handleAddToWishlistClick = async (productId) => {
+        const { custId } = this.state;
+
+        if (!custId) {
+            NotificationManager.error('Please log in to add items to your wishlist.');
+            return;
+        }
+
+        const data = { custId: custId, productId: productId };
+
+        try {
+            let result = await GetWishListDetails.addWishlistItem(data); // Call service function
+            if (result) {
+                NotificationManager.success('Added to wishlist!');
+                this.toggleWishlist(productId); // Toggle wishlist after adding
+            } else {
+                NotificationManager.error('Product is already in your wishlist.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            NotificationManager.error('An error occurred while adding to the wishlist.');
+        }
+    };
+
+    render() {
+        const { productlist, isLoaded, wishlist } = this.state;
+        const limitedProductList = productlist.slice(0, 18); // Limit to 18 items
+
         return (
             <div>
-                {/* New Item slider */}
                 <section className="product-items-slider section-padding">
-                    <div className="container" id="header-category-bk">
-                        <div className="section-header">
-                            <span>For You</span>
-                            <h5 className="heading-design-h5">Grocery & Staples {/* <span className="badge badge-primary">20% OFF</span> */}
-                                <Link to={{
-                                    pathname: `/shop/${this.state.productlist.slug}`,
-                                    state: list
-                                }}><span className="float-right text-secondary">View All</span></Link>
-                            </h5>
+                    <div className="container" id="header-category-bk" style={{ padding: '0 15px' }}>
+                        <div className="section-header text-center">
+                            <h2>Best Offers</h2>
+                            <br />
                         </div>
-                        <Slider {...settings}>
-                            {!this.state.isloaded ?<div className="progress-bar-bk"><CircularProgress color="secondary" /></div>:
-                                list.map((row, index) => (
-                                    <div key={index} className="item">
-                                        <div className="product">
-                                            <Link to={{
-                                                pathname: `/p/${row.slug}/${row.id}`,
-                                                state: row
-
-                                            }}>
+                        <div className="row justify-content-center">
+                            {!isLoaded ? (
+                                <div className="progress-bar-bk">
+                                    <CircularProgress color="secondary" />
+                                </div>
+                            ) : (
+                                limitedProductList.map((row, index) => (
+                                    <div key={index} className="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
+                                        <div className="product" style={{ backgroundColor: "black" }}>
+                                            <Link to={`/p/${row.id}`}>
                                                 <div className="product-header">
-                                                    <span className="badge badge-success">{row.discountPer}% OFF</span>
-                                                    <img className="img-fluid" src={row.photo} alt="product" />
-                                                    {/* <span className="veg text-success mdi mdi-circle" /> */}
+                                                    <img crossOrigin='anonymous' className="img-fluid" src={row.photo} alt={row.name} />
                                                 </div>
                                                 <div className="product-body">
-                                                    <h5>{row.name}</h5>
-                                                    <h6><strong><span className="mdi mdi-approval" /> Available in</strong> - {row.unitSize}</h6>
+                                                    <h6 style={{ display: "none" }}>
+                                                        <strong>
+                                                            <span className="mdi mdi-approval" /> Code
+                                                        </strong> - {row.slug}
+                                                    </h6>
                                                 </div>
                                             </Link>
                                             <div className="product-footer">
-                                                <button type="button" className="btn btn-secondary btn-sm float-right" onClick={() => this.props.addToCart(row)}><i className="mdi mdi-cart-outline" /> Add To Cart</button>
-                                                <p className="offer-price mb-0">&#x20B9;{row.price} <i className="mdi mdi-tag-outline" /><br /><span className="regular-price">&#x20B9;{row.netPrice}</span></p>
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-secondary btn-sm float-right"
+                                                    onClick={() => this.handleAddToCartClick(row)}
+                                                >
+                                                     View Product
+                                                </button>
+                                                <i
+                                                    className={`mdi ${wishlist.includes(row.id) ? 'mdi-heart' : 'mdi-heart-outline'} wishlist-icon`}
+                                                    onClick={() => this.handleAddToWishlistClick(row.id)}
+                                                    style={{ cursor: 'pointer', marginLeft: '10px', color: 'gold' }} // Set color to gold for both
+                                                />
                                             </div>
                                         </div>
                                     </div>
-                                ))}
-                        </Slider>
+                                ))
+                            )}
+                        </div>
                     </div>
                 </section>
-
-                {/* End New item slider */}
             </div>
-        )
+        );
     }
 }
-export default connect(null, { addToCart })(Topsavers);
+
+export default withRouter(Topsavers);

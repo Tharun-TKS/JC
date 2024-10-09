@@ -6,31 +6,32 @@ const emailRegex = RegExp(
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 );
 
+const phoneRegex = RegExp(
+    /^[0-9]{10}$/ // Assuming a 10-digit phone number
+);
+
 const formValid = ({ formErrors, ...rest }) => {
     let valid = true;
-
-    // validate form errors being empty
     Object.values(formErrors).forEach(val => {
         val.length > 0 && (valid = false);
     });
-
-    // validate the form was filled out
     Object.values(rest).forEach(val => {
         val === null && (valid = false);
     });
-
     return valid;
 };
+
+
 export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: null,
+            emailOrPhone: null, // Changed to a single field
             password: null,
             formErrors: {
-                email: "",
+                emailOrPhone: "",
                 password: ""
-            }
+            },
         };
     }
     handleChange = e => {
@@ -39,32 +40,34 @@ export default class Login extends Component {
         let formErrors = { ...this.state.formErrors };
 
         switch (name) {
-            case "email":
-                formErrors.email = emailRegex.test(value)
-                    ? ""
-                    : "invalid email address";
+            case "emailOrPhone":
+                // Validate email or phone
+                formErrors.emailOrPhone = emailRegex.test(value) || phoneRegex.test(value) 
+                    ? "" 
+                    : "Invalid email or phone number";
                 break;
             case "password":
-                formErrors.password =
-                    value.length < 6 ? "minimum 6 characaters required" : "";
+                formErrors.password = value.length < 6 ? "Minimum 6 characters required" : "";
                 break;
             default:
                 break;
         }
+
         this.setState({ formErrors, [name]: value });
     };
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        let { email, password } = this.state;
-        let data = { email: email, password: password }
+        let { emailOrPhone, password } = this.state;
+        let data = { emailOrPhone: emailOrPhone, password: password }; // Pass emailOrPhone directly
         if (formValid(this.state)) {
             let user = await GetUserLogin.getUserLogin(data);
             if (user) {
-                NotificationManager.success("success", "Login");
-                await GetUserLogin.authenticateByCart(user.token, email);
+                NotificationManager.success("Success", "Login");
+                await GetUserLogin.authenticate(user.token, emailOrPhone);
+                this.props.history.push('/checkout');
             } else {
-                NotificationManager.error("Please check your email & passord", "Input Error");
+                NotificationManager.error("Please check your email or phone & password", "Input Error");
             }
         } else {
             NotificationManager.error("Please check your Login", "Input Error");
@@ -72,7 +75,7 @@ export default class Login extends Component {
 
     }
     render() {
-        let { email, password, formErrors } = this.state;
+        let { emailOrPhone, password, formErrors, } = this.state;
         return (
             <div className="card checkout-step-one">
                 <div className="card-header" id="headingOne">
@@ -101,9 +104,9 @@ export default class Login extends Component {
                                                             <h5 className="heading-design-h5">Login to your account</h5>
                                                             <fieldset className="form-group">
                                                                 <label>Enter Email/Mobile number</label>
-                                                                <input type="email" className="form-control" name="email" value={email} onChange={this.handleChange} />
-                                                                {formErrors.email.length > 0 && (
-                                                                    <span className="errorMessage">{formErrors.email}</span>
+                                                                <input type="text" className="form-control" name="emailOrPhone" value={emailOrPhone} onChange={this.handleChange} />
+                                                                {formErrors.emailOrPhone.length > 0 && (
+                                                                    <span className="errorMessage">{formErrors.emailOrPhone}</span>
                                                                 )}
                                                             </fieldset>
                                                             <fieldset className="form-group">

@@ -60,7 +60,7 @@ export default class Similarproduct extends Component {
                                 <div className="product">
                                     <a href="single.html">
                                         <div className="product-header">
-                                            <span className="badge badge-success">50% OFF</span>
+
                                             <img className="img-fluid" src="img/product/big-1.jpg" alt="product" />
                                             <span className="veg text-success mdi mdi-circle" />
                                         </div>

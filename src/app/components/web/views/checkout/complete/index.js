@@ -18,7 +18,7 @@ export default class Complete extends Component {
                                 </div>
 
 
-                                <a className="next-btn16 hover-btn" href="/">Return to store</a>
+                                <a className="next-btn16 hover-btn" href="../../account/order/list">Go to Downloads</a>
 
                             </div>
                         </div>

@@ -2,12 +2,21 @@
 @import url('https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900|Roboto+Condensed:300,300i,400,400i,700,700i');
 
 /* Body */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
  body {
      background-color: #f9f9f9;
      font-size: 13px;
      font-family: 'Maven Pro', sans-serif;
      line-height: 25px;
      color: #888;
+     margin: 0 !important;
+     padding: 0 !important;
+     box-sizing: border-box;
 }
 #root {
     overflow-x: hidden;
@@ -348,8 +357,15 @@ a:focus {
 .osahan-menu .navbar-brand {
     padding: 15px 18px;
 }
+
+.navbar-brand img {
+    max-height: 85px; /* Set logo height */
+    
+    padding-left: 25px !important;
+}
+
 .osahan-menu .navbar-brand:hover {
-    background: #384042 none repeat scroll 0 0;
+    background: #727af3 none repeat scroll 0 0;
 }
 .main-nav-right .btn {
     border-radius: 0 !important;
@@ -360,7 +376,7 @@ a:focus {
     text-decoration: none;
 }
 .main-nav-right .btn:hover {
-     background-color: #384042 !important;
+     background-color:#727af3 !important;
      color: #fff !important;
 }
 .main-nav-right li {
@@ -413,7 +429,7 @@ a:focus {
     margin: auto;
     position: absolute;
     right: 0;
-    top: 16px;
+    top: 25px;
     width: 50%;
 }
 .top-categories-search .form-control {
@@ -499,7 +515,7 @@ a:focus {
 	box-shadow: 0 0 2px #ccc;
 	height: 80px;
 	margin: 1px 30px 8px;
-	object-fit: scale-down;
+	object-fit: cover;
 	padding: 5px;
 	transform: scale(1);
 	transition-duration: 0.4s;
@@ -571,14 +587,14 @@ a:focus {
     padding-top: 8rem !important;
 }
 .product {
-    background: #fff none repeat scroll 0 0;
+    background: #000000 none repeat scroll 0 0;
     border: 1px solid #eeeeee;
     border-radius: 2px;
-    margin: 0 -1px 0 0;
+    margin-top: 20px;
     padding: 20px;
     position: relative;
 }
-.product-header .mdi-circle {
+.product-header .wishlist-icon {
     border: 1px solid;
     border-radius: 2px;
     display: inline-block;
@@ -602,11 +618,11 @@ a:focus {
     margin: 5px 0 14px;
 }
 .product-header img {
-	height: 200px;
-	margin: 0 0 18px;
-	object-fit: scale-down;
-	transform: scale(1);
-	transition-duration: 0.4s;
+    height: 100%;               /* Set a specific height */
+    margin: 0 0 18px;
+
+    transform: scale(1);
+    transition-duration: 0.4s;
 }
 .product:hover .product-header img {
 	transform: scale(1.09);
@@ -676,9 +692,10 @@ a:focus {
     border-top: 1px solid #eeeeee !important;
 }
 .app img {
-    height: 32px;
+    height: 32px ;
     margin: 0 11px 0 0;
 }
+
 .footer-bottom p{
 	line-height: 16px;
 }
@@ -783,7 +800,7 @@ body.toggled::after {
     float: left;
     height: 99px;
     margin: 0 15px 0 0;
-    object-fit: scale-down;
+    object-fit: cover;
     width: 82px;
 }
 .cart-list-product h5 a {
@@ -980,10 +997,10 @@ body.toggled::after {
     border-width: 1px 1px 3px;
     box-shadow: 0 0 3px #ececec;
     float: left;
-    height: 88px;
+    /* height: 88px; */
     margin: 0px;
-    object-fit: scale-down;
-    width: 72px;
+    object-fit: cover;
+    /* width: 72px; */
 }
 .cart_summary td {
     vertical-align: middle;
@@ -1168,13 +1185,15 @@ body.toggled::after {
 }
 /* Login Modal */
 .login-modal-left {
-    background: rgba(0, 0, 0, 0) url("../img/login.jpg") repeat scroll center center;
+    background: url("../img/footerlogo.webp") no-repeat center center; /* No repeat and centered */
+    background-size: contain; /* Scale to cover */
     float: right;
-    height: 300px;
-    list-style: outside none none;
+    height: 250px;
+    list-style: none;
     margin: 70px auto auto;
-    width: 322px;
+    width: 270px;
 }
+
 .form-control {
     border-radius: 2px;
     font-size: 14px;
@@ -1611,6 +1630,12 @@ label {
 }
 /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991.98px) { 
+
+    .navbar-brand img {
+        max-height: 85px; /* Set logo height */
+       
+        padding-left: 25px !important;
+    }
     .slick-dots li {
         width: 60px !important;
     }
@@ -1682,6 +1707,8 @@ label {
 	.app img {
 		margin-bottom: 4px;
 	}
+
+
 	.footer-social a {
 		margin-bottom: 3px;
 	}
@@ -1771,3 +1798,400 @@ label {
 		min-width: auto;
 	}
 }
+
+.product-header {
+    width: 100%; /* Make sure it takes the full width of the parent */
+    height: 200px; /* Set a fixed height for all product images */
+    overflow: hidden; /* Hide any overflow */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* .product-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+} */
+
+@media (max-width: 768px) {
+    .slider {
+        flex-direction: column; /* Change to vertical on mobile */
+        overflow-x: hidden; /* Hide horizontal overflow */
+        overflow-y: auto; /* Allow vertical scrolling */
+    }
+
+    .slide {
+        margin-right: 0; /* Remove right margin */
+        margin-bottom: 10px; /* Add bottom margin for spacing */
+    }
+}
+
+/* Styles for the message */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Darker background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999; /* Ensure it is on top */
+}
+
+.message-box {
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    font-size: 18px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 1000;
+}
+
+.card.active {
+    border-left: 4px solid #f16d51; /* Highlight with a colored border */
+    background-color: #f9f9f9; /* Light background for active card */
+  }
+  
+  .card.collapsed {
+    background-color: #fff; /* Default background for collapsed cards */
+  }
+  
+  .btn-primary {
+    background-color: #f16d51;
+    border-color: #f16d51;
+  }
+  
+  .btn-primary:hover {
+    background-color: #d65a3a;
+    border-color: #d65a3a;
+  }
+
+  .about-us {
+    padding: 150px 0;
+    background-color: #f9f9f9;
+}
+
+.about-content {
+    background: #fff;
+    padding: 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.about-content h5 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.about-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Main container for the Contact Us page */
+.contact-us-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-top: 50px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading styling */
+.contact-us-container h2 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Contact details section */
+.contact-details {
+    margin-bottom: 40px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.contact-details h4 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #333;
+}
+
+.contact-details p {
+    margin: 0;
+    color: #555;
+}
+
+/* Form styling */
+.contact-form h4 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #333;
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: #333;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.contact-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.contact-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Loading indicator styling */
+.loading-indicator {
+    margin: 20px 0;
+}
+
+/* Media Queries for smaller screens */
+@media (max-width: 768px) {
+    .contact-us-container {
+        padding: 10px;
+    }
+
+    .contact-us-container h2 {
+        font-size: 24px;
+    }
+
+    .contact-details h4,
+    .contact-form h4 {
+        font-size: 18px;
+    }
+}
+
+.sitemap-container {
+    padding: 130px;
+    background-color: #f9f9f9;
+}
+
+.sitemap-header {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.sitemap-section {
+    margin-bottom: 20px;
+}
+
+.sitemap-title {
+    font-size: 22px;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.category-list, .subcategory-list, .sitemap-section ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.category-list li, .subcategory-list li, .sitemap-section ul li {
+    font-size: 18px;
+    color: #555;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.category-list li:hover, .subcategory-list li:hover, .sitemap-section ul li:hover {
+    color: #007bff;
+    cursor: pointer;
+}
+.privacy-policy-container {
+    padding-top: 150px;
+    padding: 120px;
+    background-color: #f9f9f9;
+}
+
+.privacy-policy-header {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.privacy-policy-text {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.privacy-policy-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.privacy-policy-list li {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.terms-conditions-container {
+    padding: 120px;
+    background-color: #f4f4f9;
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.terms-conditions-header {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.terms-conditions-text {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.wishlist-icon {
+    font-size: 20px; /* Keep the original size */
+    color: gold; /* Default color */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    transform: scale(1.5); /* Increase size by 1.5x */
+    transition: transform 0.3s ease-in-out, color 0.3s;
+}
+
+
+.wishlist-icon.added {
+    color: red; /* Color for wishlist items */
+}
+
+.wishlist-icon:hover {
+    color: darkred; /* Change color on hover */
+}
+
+/* Pricing Section Styles */
+.pricing-section {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+.pricing-section .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 100px;
+}
+
+.pricing-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.pricing-section p {
+    text-align: justify;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #666;
+}
+/* Returns & Cancellation Section Styles */
+.returns-cancellation-section {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+}
+
+.returns-cancellation-section .container {
+    max-width: 800px;
+    
+    padding: 85px;
+}
+
+.returns-cancellation-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.returns-cancellation-section p {
+    text-align: justify;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #666;
+}
+.wishlist-icon {
+    transition: color 0.3s ease-in-out;
+}
+
+.wishlist-icon.filled {
+    color: gold;
+    text-shadow: 0 0 10px gold, 0 0 20px gold, 0 0 30px gold;
+}
+
+.wishlist-icon.mdi-heart {
+    text-shadow: 0 0 10px gold, 0 0 20px gold, 0 0 30px gold; /* Only for filled heart */
+}
+
+
+
+

@@ -1,0 +1,92 @@
+/* Common Styles for Pagination */
+.pagination-controls {
+    display: flex;
+    justify-content: center; /* Center the pagination controls */
+    align-items: center; /* Center items vertically */
+    margin: 20px 0; /* Add space around pagination */
+    gap: 10px; /* Space between buttons */
+}
+
+.page-button,
+.arrow-button {
+    border: none;
+    background-color: #007bff; /* Main button color */
+    color: white; /* Text color */
+    padding: 10px 15px; /* Padding inside buttons */
+    cursor: pointer; /* Change cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth background color and scale transition */
+}
+
+.arrow-button {
+    background: linear-gradient(to right, rgba(245, 93, 44, 0.9), rgba(230, 92, 91, 0.9)); /* Gradient for arrows */
+    font-size: 18px; /* Increase arrow size */
+    padding: 10px; /* Adjust padding for arrow buttons */
+}
+
+.page-button:hover,
+.arrow-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.page-button.active {
+    background-color: #0056b3; /* Active button color */
+    font-weight: bold; /* Make active button text bold */
+    transform: scale(1.1); /* Slightly enlarge active button */
+}
+
+.page-button:disabled,
+.arrow-button:disabled {
+    background-color: #ccc; /* Disabled button color */
+    cursor: not-allowed; /* Not allowed cursor */
+    opacity: 0.6; /* Reduce opacity for disabled state */
+}
+
+.tagheader {
+    margin-top: 75px;
+}
+
+/* Mobile Styles (up to 768px wide) */
+@media (max-width: 768px) {
+    .pagination-controls {
+        gap: 5px; /* Reduce space between buttons */
+    }
+
+    .page-button,
+    .arrow-button {
+        padding: 8px 12px; /* Smaller padding for buttons */
+        font-size: 14px; /* Smaller font size */
+        margin: 0 2px; /* Reduce margin between buttons */
+    }
+
+    .arrow-button {
+        padding: 8px; /* Smaller padding for arrow buttons */
+        font-size: 16px; /* Smaller arrow size */
+    }
+    .tagheader {
+        margin-top: 0px;
+    }
+    .tag-section {
+        margin-top: 40px;
+    }
+}
+
+/* Small Mobile Styles (up to 480px wide) */
+@media (max-width: 480px) {
+    .pagination-controls {
+        gap: 3px; /* Further reduce space between buttons */
+    }
+
+    .page-button,
+    .arrow-button {
+        padding: 6px 10px; /* Further reduce padding for smaller screens */
+        font-size: 12px; /* Smaller font size */
+        margin: 0 1px; /* Minimize margins */
+    }
+
+    .arrow-button {
+        padding: 6px; /* Smaller padding for arrow buttons */
+        font-size: 14px; /* Smaller arrow size */
+    }
+}

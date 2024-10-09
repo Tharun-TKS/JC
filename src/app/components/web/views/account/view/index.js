@@ -24,14 +24,14 @@ export default class View extends Component {
     render() {
         let { user } = this.state;
         return (
-            <div className="wrapper">
+            <div className="wrapper" >
                 <div className="gambo-Breadcrumb">
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12">
                                 <nav aria-label="breadcrumb">
                                     <ol className="breadcrumb">
-                                        <li className="breadcrumb-item">Home</li>
+                                        <li className="breadcrumb-item"><a href="/">Home </a></li>
                                         <li className="breadcrumb-item active" aria-current="page">User Dashboard</li>
                                     </ol>
                                 </nav>
@@ -51,9 +51,9 @@ export default class View extends Component {
                                             <label htmlFor="file"><i className="uil uil-camera-plus" /></label>
                                         </div>
                                     </div>
-                                    <h4>{user.firstName}</h4>
-                                    <p>+977 {user.phone}</p>
-                                    <div className="earn-points"><img src="images/Dollar.svg" alt />Points : <span>20</span></div>
+                                    <h4>{user.fullName}</h4>
+                                    <p>+91 {user.phone}</p>
+                                    {/* <div className="earn-points"><img src="images/Dollar.svg" alt />Points : <span>20</span></div> */}
                                 </div>
                             </div>
                         </div>
@@ -68,7 +68,7 @@ export default class View extends Component {
                                         <a href="/account/view" className="user-item active"><i className="uil uil-apps" />Overview</a>
                                         <a href="/account/profile" className="user-item"><i className="mdi mdi-account-outline" />My profile</a>
                                         <a href="/account/order/list" className="user-item"><i className="uil uil-box" />My Orders</a>
-                                        <a href="/account/rewards" className="user-item"><i className="uil uil-gift" />My Rewards</a>
+                                        {/* <a href="/account/rewards" className="user-item"><i className="uil uil-gift" />My Rewards</a> */}
                                         <a href="/account/wishlist" className="user-item"><i className="uil uil-heart" />Shopping Wishlist</a>
                                         <a href="/account/address" className="user-item"><i className="uil uil-location-point" />My Address</a>
                                         <a className="user-item" onClick={this.handleLogout}><i className="uil uil-exit" />Logout</a>
@@ -83,7 +83,7 @@ export default class View extends Component {
                                                 <h4><i className="uil uil-apps" />Overview</h4>
                                             </div>
                                             <div className="welcome-text">
-                                                <h2>Hi! {user.firstName}</h2>
+                                                <h2>Hi! {user.fullName}</h2>
                                             </div>
                                         </div>
                                         {/* <div className="col-lg-6 col-md-12">

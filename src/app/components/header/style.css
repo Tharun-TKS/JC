@@ -1,0 +1,175 @@
+
+/* Overall Header Styles */
+/* Overall Header Styles */
+
+/* Navbar Brand Logo Styles */
+.navbar-brand img {
+    max-height: 85px; /* Set logo height */
+    padding: 0 !important;
+    
+    /* Add gold stroke effect */
+    box-shadow: 0 0 0 1px #ffd700; /* Gold stroke around the logo */
+    border-radius: 60px; /* Optional: slightly rounded corners */
+}
+.header {
+    background-color: #001f3f; /* Deep Navy Blue for header */
+    height: auto; /* Adjust height according to logo size */
+    
+    margin-top: 0 !important; /* Remove top margin */
+    margin-bottom: 25px;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #001f3f; /* Deep Navy Blue for navbar */
+    border-bottom: 1px solid #ddd; /* Light border at the bottom */
+}
+
+.navbar-brand img {
+    max-height: 85px; /* Set logo height */
+    
+    padding-left: 25px;
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important; /* White text color for nav links */
+    font-size: 16px; /* Font size */
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+/* Navbar Toggler Styles */
+.navbar-toggler {
+    border-color: #fff; /* White border for toggler */
+}
+
+.navbar-toggler-icon {
+    background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="%23fff" stroke-width="8" d="M 10 25 L 90 25 M 10 50 L 90 50 M 10 75 L 90 75" /%3E%3C/svg%3E');
+}
+
+/* Hide Search Bar Completely */
+.top-categories-search-main,
+.top-categories-search {
+    display: none !important; /* Completely remove search bar */
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+    background-color:#727af3; /* New background color for dropdown */
+    color: #fff; /* White font color for dropdown items */
+    border: none; /* Remove border for a cleaner look */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+    min-width: 200px; /* Ensure minimum width for dropdown */
+}
+
+/* Ensure main navbar items have #f16d51 background and black text color on hover */
+.navbar-nav .nav-link {
+    color: white; /* Default font color for navbar items */
+    padding: 10px 15px; /* Ensure padding is substantial */
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #f16d51 !important; /* #f16d51 background on hover */
+    color: black !important; /* Black font color on hover */
+    border-radius: 6px;
+}
+/* Dropdown Items */
+.dropdown-menu .dropdown-item {
+    color: #fff !important; /* White font color for dropdown items */
+    padding: 10px 15px; /* Add padding to make items look like buttons */
+    border-radius: 4px; /* Slightly rounded corners */
+}
+
+/* Dropdown Item Hover Effects */
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f16d51 !important; /* #f16d51 background on hover */
+    color: black !important; /* Black text color on hover */
+}
+
+/* Submenu Positioning */
+.dropdown-submenu {
+    position: relative; /* Position relative to allow absolute positioning of submenu */
+}
+
+.dropdown-submenu .dropdown-menu {
+    position: absolute;
+    top: 0;
+    left: 100%; /* Position to the right of the parent */
+    margin-left: 0; /* Ensure no extra margin */
+    border-radius: 0 4px 4px 4px; /* Rounded corners only on the right side */
+}
+
+/* Ensure submenu dropdown menu is visible on hover */
+.dropdown-submenu:hover .dropdown-menu {
+    display: block;
+}
+
+/* Ensure submenu has a blue background and appears above other content */
+.dropdown-menu .dropdown-menu {
+    background-color:#727af3; /* Same new blue background */
+    z-index: 9999; /* Ensure it is above other content */
+}
+
+/* Navbar Alignment and Margin */
+.navbar-expand-lg {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-nav .list-inline-item {
+    margin: 0 10px; /* Adjust spacing as needed */
+}
+
+.cart-btn {
+    margin-left: 10px; /* Space between cart and other items */
+}
+
+/* Ensure Navbar Width */
+.navbar-collapse {
+    width: 100%;
+}
+
+/* Mobile View Adjustments */
+
+@media (max-width: 768px) {
+    .navbar-brand img {
+        max-height: 80px; /* Set logo height */
+        padding: 0 !important;
+        margin-left: 10px;
+        /* Add gold stroke effect */
+        box-shadow: 0 0 0 1px #ffd700; /* Gold stroke around the logo */
+        border-radius: 60px; /* Optional: slightly rounded corners */
+    }
+}
+
+
+@media (max-width: 991px) {
+    .navbar-collapse {
+        display: none; /* Hide on mobile view initially */
+    }
+    
+    .navbar-collapse.show {
+        display: block; /* Show on toggle */
+    }
+
+    .dropdown-menu {
+        position: static; /* Adjust position for mobile */
+        box-shadow: none; /* Remove shadow for mobile */
+    }
+    
+    .dropdown-submenu .dropdown-menu {
+        position: static; /* Adjust position for mobile */
+        margin-left: 0; /* Remove margin */
+        border-radius: 0; /* Remove rounded corners */
+    }
+    
+    .navbar-toggler {
+        display: block; /* Ensure toggler is visible */
+    }
+}

@@ -18,7 +18,7 @@ const getOrderCreateByUser = async (data) => {
 
 const getOrderByUser = async (id) => {
     try {
-        let result = await api.get(Apis.GetOrderByUser,`/${id}`);
+        let result = await api.get(`${Apis.GetOrderByUser}?id=${id}`);
         if (result.data.error) {
             NotificationManager.error(result.data.error);
             return null;
@@ -72,10 +72,26 @@ const getPaymentOrderList = async (data) => {
     }
 };
 
+
+const getOrderDownload = async (filename) => {
+    try {
+        let result = await api.get(`${Apis.GetOrderDownload}?filename=${filename}`);
+        if (result.data.error) {
+            NotificationManager.error(result.data.error);
+            return null;
+        }
+        return result.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
 export default {
     getOrderCreateByUser,
     getOrderByUser,
     getPaymentVerification,
     getPaymentValue,
-    getPaymentOrderList
+    getPaymentOrderList,
+    getOrderDownload
 };

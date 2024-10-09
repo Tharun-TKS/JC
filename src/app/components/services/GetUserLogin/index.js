@@ -6,9 +6,9 @@ import { NotificationManager } from 'react-notifications';
 const getUserLogin = async (data) => {
     try {
         let result = await api.post(Apis.GetUserLogin, data, {
-            withCredentials: true,
+         
             headers: {
-                'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json'
+               'Content-Type': 'application/json'
             }
         });
         if (result.data.error) {
@@ -108,6 +108,50 @@ const isAuthenticate = () => {
     return sessionStorage.getItem('_sid');
 };
 
+const sendResetPasswordEmail = async (email) => {
+    try {
+        let result = await api.post(Apis.Resetrequestsend, { email });
+        if (result.data.errors) {
+            NotificationManager.error(result.data.errors);
+            return null;
+        }
+        return result.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
+// Verify OTP for password reset
+const verifyOtp = async (email, otp) => {
+    try {
+        let result = await api.post(Apis.Otpverify, { email, otp });
+        if (result.data.errors) {
+            NotificationManager.error(result.data.errors);
+            return null;
+        }
+        return result.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
+
+const resetPassword = async (email, verificationCode, newPassword) => {
+    try {
+        let result = await api.post(Apis.Resetpassword, { email, verificationCode, password: newPassword });
+        if (result.data.errors) {
+            NotificationManager.error(result.data.errors);
+            return null;
+        }
+        return result.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
 export default {
     getUserLogin,
     authenticate,
@@ -117,4 +161,7 @@ export default {
     getCustomerDetail,
     getCustomerUpdate,
     logout,
+    sendResetPasswordEmail,
+    verifyOtp,
+    resetPassword,
 };
