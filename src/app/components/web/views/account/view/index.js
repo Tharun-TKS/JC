@@ -67,7 +67,7 @@ export default class View extends Component {
                                     <div className="dashboard-left-links">
                                         <a href="/account/view" className="user-item active"><i className="uil uil-apps" />Overview</a>
                                         <a href="/account/profile" className="user-item"><i className="mdi mdi-account-outline" />My profile</a>
-                                        <a href="/account/order/list" className="user-item"><i className="uil uil-box" />My Orders</a>
+                                        <a href="/account/order/list" className="user-item"><i className="uil uil-box" />Downloads</a>
                                         {/* <a href="/account/rewards" className="user-item"><i className="uil uil-gift" />My Rewards</a> */}
                                         <a href="/account/wishlist" className="user-item"><i className="uil uil-heart" />Shopping Wishlist</a>
                                         <a href="/account/address" className="user-item"><i className="uil uil-location-point" />My Address</a>
@@ -114,7 +114,7 @@ export default class View extends Component {
                                         <div className="col-lg-6 col-md-12">
                                             <div className="pdpt-bg">
                                                 <div className="pdpt-title">
-                                                    <h4>My Orders</h4>
+                                                    <h4>Downloads</h4>
                                                 </div>
                                                 <div className="ddsh-body">
                                                     <h2>2 Recently Purchases</h2>

@@ -97,7 +97,7 @@ export default class Profile extends Component {
                                     <div className="dashboard-left-links">
                                         <a href="/account/view" className="user-item"><i className="uil uil-apps" />Overview</a>
                                         <a href="/account/profile" className="user-item active"><i className="mdi mdi-account-outline" />My profile</a>
-                                        <a href="/account/order/list" className="user-item"><i className="uil uil-box" />My Orders</a>
+                                        <a href="/account/order/list" className="user-item"><i className="uil uil-box" />Downloads</a>
                                         {/* <a href="/account/rewards" className="user-item"><i className="uil uil-gift" />My Rewards</a> */}
                                         <a href="/account/wishlist" className="user-item"><i className="uil uil-heart" />Shopping Wishlist</a>
                                         <a href="/account/address" className="user-item"><i className="uil uil-location-point" />My Address</a>

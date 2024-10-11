@@ -1,0 +1,7 @@
+/* Styling for mobile view */
+@media (max-width: 768px) {
+    .order-list-tabel img {
+        width: 150px !important;  /* Increase the width for mobile view */
+        height: auto;  /* Automatically adjust the height to maintain aspect ratio */
+    }
+}

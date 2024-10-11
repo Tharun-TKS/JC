@@ -85,6 +85,8 @@ export default class Register extends Component {
             if (list) {
                 NotificationManager.success("Successfully Added New User");
                 // window.location.href="/";
+                // Call the function passed from Login component to switch to the login tab
+        this.props.onRegisterSuccess();
             }
         } else {
             NotificationManager.error("Please check your Register form", "Input Error");
@@ -112,7 +114,7 @@ export default class Register extends Component {
                 </fieldset>
 
                 <fieldset className="form-group">
-                    <label>Enter Email/Mobile number</label>
+                    <label>Enter Email</label>
                     <input
                         type="text"
                         className="form-control"

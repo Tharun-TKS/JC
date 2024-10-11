@@ -77,7 +77,7 @@ class Topsavers extends Component {
 
     render() {
         const { productlist, isLoaded, wishlist } = this.state;
-        const limitedProductList = productlist.slice(0, 18); // Limit to 18 items
+        const limitedProductList = productlist.slice(0, 8); // Limit to 18 items
 
         return (
             <div>

@@ -1,0 +1,8 @@
+.password-toggle {
+    position: absolute;
+    right: 10px; /* Adjust as needed */
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 10; /* Ensure it is above other elements */
+}

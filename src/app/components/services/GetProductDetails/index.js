@@ -98,7 +98,6 @@ const getProductByTagSearch= async (tag) => {
     try {
       // Make sure to include tag in the URL as a query parameter
       let result = await api.get(`${Apis.GetProductByTagSearch}?tag=${tag}`);
-      console.log(result.data)
   
       if (result.data.error) {
         NotificationManager.error(result.data.error);
@@ -127,6 +126,25 @@ const getProductByTagSearch= async (tag) => {
 };
 
 
+const getNewArrivals= async (limit) => {
+    try {
+      // Make sure to include limit in the URL as a query parameter
+      let result = await api.get(`${Apis.GetNewProductArrivals}?limit=${limit}`);
+  
+      if (result.data.error) {
+        NotificationManager.error(result.data.error);
+        return null;
+      }
+  
+      return result.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
+
+
 
 export default {
     getProductById,
@@ -137,4 +155,5 @@ export default {
     getProductBySubcategory,
     getProductByTagSearch,
     getAllProductSearchList,
+    getNewArrivals
 };

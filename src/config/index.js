@@ -16,6 +16,7 @@ const Apis = {
   GetProductByCategory: `${API_URL}/api/product/getProductByCategory`,
   GetProductByTagSearch: `${API_URL}/api/product/products`,
   GetProductSearchList: `${API_URL}/api/product/searchproducts`,
+  GetNewProductArrivals: `${API_URL}/api/product/getNewArrivals`,
   //product api
   GetOrderCreateByUser: `${API_URL}/api/order/create`,
   GetOrderByUser: `${API_URL}/api/order/list`,

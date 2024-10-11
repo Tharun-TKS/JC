@@ -857,6 +857,7 @@
 import React, { Component } from "react";
 import { GetAddressDetails, GetUserLogin } from "../../../../services";
 import './delivery.css'
+import { NotificationManager } from "react-notifications";
 
 export default class Deliverydetails extends Component {
   constructor(props) {
@@ -966,7 +967,7 @@ export default class Deliverydetails extends Component {
       // Include selectedAddress ID when not adding a new address
       delivery.selectedAddress = selectedAddress;
     }
-
+    NotificationManager.success("Delivery adress updated");
     // Pass the delivery object to the parent component
     this.props.onSelectDeliveryAddress(delivery);
   };

@@ -34,7 +34,7 @@ export default class Details extends Component {
                                 <nav aria-label="breadcrumb">
                                     <ol className="breadcrumb">
                                         <li className="breadcrumb-item"><a href="/">Home </a></li>
-                                        <li className="breadcrumb-item active" aria-current="page">My Orders</li>
+                                        <li className="breadcrumb-item active" aria-current="page">Downloads</li>
                                     </ol>
                                 </nav>
                             </div>
@@ -69,7 +69,7 @@ export default class Details extends Component {
                                     <div className="dashboard-left-links">
                                         <a href="/account/view" className="user-item"><i className="uil uil-apps" />Overview</a>
                                         <a href="/account/profile" className="user-item"><i className="mdi mdi-account-outline" />My profile</a>
-                                        <a href="/account/order" className="user-item active"><i className="uil uil-box" />My Orders</a>
+                                        <a href="/account/order" className="user-item active"><i className="uil uil-box" />Downloads</a>
                                         <a href="/account/rewards" className="user-item"><i className="uil uil-gift" />My Rewards</a>
                                         <a href="/account/wishlist" className="user-item"><i className="uil uil-heart" />Shopping Wishlist</a>
                                         <a href="/account/address" className="user-item"><i className="uil uil-location-point" />My Address</a>
@@ -82,7 +82,7 @@ export default class Details extends Component {
                                     <div className="row">
                                         <div className="col-md-12">
                                             <div className="main-title-tab">
-                                                <h4><i className="uil uil-box" />My Orders</h4>
+                                                <h4><i className="uil uil-box" />Downloads</h4>
                                             </div>
                                         </div>
                                         <div className="col-lg-12 col-md-12">

@@ -22,11 +22,9 @@ class Productview extends Component {
       toggle: false,
       wishlist: [], // State for wishlist items
       custId: null, // Initialize custId state
-      isMobileView: window.innerWidth <= 786, 
+      isMobileView: window.innerWidth <= 786,
     };
   }
-
-
 
   async getFilterByProduct() {
     this.setState({ isloaded: false });
@@ -94,7 +92,10 @@ class Productview extends Component {
 
   async componentDidMount() {
     window.scrollTo(0, 0);
-    this.fetchProductsByCategory(63); // Fetch products for category ID 63
+
+    const queryParams = new URLSearchParams(this.props.location.search);
+    const categoryId = queryParams.get("categoryId");
+    this.fetchProductsByCategory(categoryId);
     this.fetchSubCategories();
 
     let email = sessionStorage.getItem("email");
@@ -199,7 +200,7 @@ class Productview extends Component {
       toggle,
       isloaded,
       wishlist,
-      isMobileView 
+      isMobileView,
     } = this.state;
 
     return (
@@ -213,7 +214,6 @@ class Productview extends Component {
                     <span className="mdi mdi-home" /> <a href="/">Home </a>
                   </strong>
                 </a>{" "}
-             
                 <span className="mdi mdi-chevron-right" />{" "}
                 <a href="#">Categories</a>
               </div>
@@ -231,11 +231,11 @@ class Productview extends Component {
                       <div className="card-header" id="headingOne">
                         <h5 className="mb-0">
                           <button
-                         className="btn btn-link"
-                         data-toggle={isMobileView ? "collapse" : ""}
-                         data-target={isMobileView ? "#collapseOne" : ""}
-                         aria-expanded="true"
-                         aria-controls="collapseOne"
+                            className="btn btn-link"
+                            data-toggle={isMobileView ? "collapse" : ""}
+                            data-target={isMobileView ? "#collapseOne" : ""}
+                            aria-expanded="true"
+                            aria-controls="collapseOne"
                           >
                             All Category{" "}
                             <span className="mdi mdi-chevron-down float-right" />
@@ -307,15 +307,6 @@ class Productview extends Component {
                                     alt={row.name}
                                   />
                                 </div>
-                                {/* <div className="product-body">
-                                  <h5>{row.name}</h5>
-                                  <h6>
-                                    <strong>
-                                      <span className="mdi mdi-approval" /> Code
-                                    </strong>{" "}
-                                    - {row.slug}
-                                  </h6>
-                                </div> */}
                               </Link>
                               <div className="product-footer">
                                 <button
@@ -376,15 +367,6 @@ class Productview extends Component {
                                     alt={row.name}
                                   />
                                 </div>
-                                {/* <div className="product-body">
-                                  <h5>{row.name}</h5>
-                                  <h6>
-                                    <strong>
-                                      <span className="mdi mdi-approval" /> Code
-                                    </strong>{" "}
-                                    - {row.slug}
-                                  </h6>
-                                </div> */}
                               </Link>
                               <div className="product-footer">
                                 <button

@@ -75,11 +75,15 @@ const getPaymentOrderList = async (data) => {
 
 const getOrderDownload = async (filename) => {
     try {
-        let result = await api.get(`${Apis.GetOrderDownload}?filename=${filename}`);
+        let result = await api.get(`${Apis.GetOrderDownload}?filename=${filename}`, {
+            responseType: 'blob' // Ensure the response is a binary blob
+        });
+
         if (result.data.error) {
             NotificationManager.error(result.data.error);
             return null;
         }
+
         return result.data;
     } catch (error) {
         console.log(error);

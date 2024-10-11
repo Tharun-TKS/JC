@@ -16,7 +16,7 @@ class AboutUs extends Component {
         return (
             <div>
                 <section className="about-us section-padding">
-                    <div className="container" style={{ padding: '0 15px' }}>
+                    <div className="container" style={{ padding: '0 5px' }}>
                         <div className="section-header text-center">
                             <h2>About Us</h2>
                             <br />

@@ -18,26 +18,45 @@ class Topstample extends Component {
     }
 
     async componentDidMount() {
-        const categoryId = '110'; // Replace with actual category ID
-        const response = await GetProductDetails.getProductByCategory(categoryId);
+        // Example IDs to fetch details for (you can adjust as needed)
+        const ids = ['1006', '1647', '1490', '1585']; // Replace with actual IDs
 
-        if (response) {
+        const products = await this.fetchProductDetailsByIds(ids); // Fetch product details
+
+        if (products.length > 0) {
             this.setState({
-                productlist: response.data,
+                productlist: products,
                 isLoaded: true
             });
         } else {
             this.setState({
                 isLoaded: true
             });
+            NotificationManager.error('No products found.');
         }
 
+        // Fetch user details
         let email = sessionStorage.getItem('email');
         if (email) {
             let user = await GetUserLogin.getCustomerDetail(email);
             if (user) {
                 this.setState({ custId: user.data.id }); // Store the custId
             }
+        }
+    }
+
+    async fetchProductDetailsByIds(ids) {
+        const productPromises = ids.map(async (id) => {
+            const response = await GetProductDetails.getProductById(id); // Call the API for each ID
+            return response && response.success ? response.data : null; // Return data if successful
+        });
+
+        try {
+            const results = await Promise.all(productPromises);
+            return results.filter(product => product); // Filter out null values
+        } catch (error) {
+            console.error('Error fetching product details:', error);
+            return [];
         }
     }
 
@@ -78,7 +97,7 @@ class Topstample extends Component {
 
     render() {
         const { productlist, isLoaded, wishlist } = this.state;
-        const limitedProductList = productlist.slice(0, 18); // Limit to 18 items
+
 
         return (
             <div>
@@ -94,7 +113,7 @@ class Topstample extends Component {
                                     <CircularProgress color="secondary" />
                                 </div>
                             ) : (
-                                limitedProductList.map((row, index) => (
+                                productlist.map((row, index) => (
                                     <div key={index} className="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
                                         <div className="product" style={{ backgroundColor: "black" }}>
                                             <Link to={`/p/${row.id}`}>
