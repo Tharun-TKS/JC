@@ -270,7 +270,6 @@
 //   }
 // }
 
-
 // import React, { Component } from "react";
 // import { GetAddressDetails, GetUserLogin } from "../../../../services";
 // import { NotificationManager } from 'react-notifications';
@@ -380,7 +379,7 @@
 //   if (showNewAddressForm) {
 //     if (!name || !phone || !district || !city || !area || !states || !address) {
 //       NotificationManager.error("All fields are mandatory. Please fill out every field.");
-    
+
 //       return;
 //     }
 //   } else if (!selectedAddress) {
@@ -567,8 +566,6 @@
 //     );
 //   }
 // }
-
-
 
 // import React, { Component } from "react";
 // import { GetAddressDetails, GetUserLogin } from "../../../../services";
@@ -856,7 +853,7 @@
 // }
 import React, { Component } from "react";
 import { GetAddressDetails, GetUserLogin } from "../../../../services";
-import './delivery.css'
+import "./delivery.css";
 import { NotificationManager } from "react-notifications";
 
 export default class Deliverydetails extends Component {
@@ -935,7 +932,8 @@ export default class Deliverydetails extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    const { name, phone, area, states, selectedAddress, showNewAddressForm } = this.state;
+    const { name, phone, area, states, selectedAddress, showNewAddressForm } =
+      this.state;
 
     // Check if an address is selected or the new address form is being used
     if (!selectedAddress && !showNewAddressForm) {
@@ -973,8 +971,15 @@ export default class Deliverydetails extends Component {
   };
 
   render() {
-    const { name, phone, area, states, locationList, showNewAddressForm, selectedAddress } =
-      this.state;
+    const {
+      name,
+      phone,
+      area,
+      states,
+      locationList,
+      showNewAddressForm,
+      selectedAddress,
+    } = this.state;
 
     return (
       <div className="card-body">
@@ -987,11 +992,15 @@ export default class Deliverydetails extends Component {
                 onClick={() => this.handleAddressSelect(address)}
               >
                 <div
-                  className={`delivery-custom-checkbox ${selectedAddress === address.id ? "checked" : ""}`}
+                  className={`delivery-custom-checkbox ${
+                    selectedAddress === address.id ? "checked" : ""
+                  }`}
                 ></div>
                 <label>
-                  {address.fullname}<br />
-                  +91 {address.phone}<br />
+                  {address.fullname}
+                  <br />
+                  +91 {address.phone}
+                  <br />
                   {address.area ? `${address.area}, ` : ""}
                   {address.states ? `${address.states}` : ""}
                 </label>
@@ -1038,13 +1047,13 @@ export default class Deliverydetails extends Component {
                 <div className="col-sm-6">
                   <div className="form-group">
                     <label className="control-label">
-                      State <span className="required">*</span>
+                      Town / City <span className="required">*</span>
                     </label>
                     <input
-                      type="text"
                       className="form-control border-form-control"
-                      name="states"
-                      value={states}
+                      type="text"
+                      name="area"
+                      value={area}
                       onChange={this.handleChange}
                       required // Mark as required
                     />
@@ -1053,13 +1062,13 @@ export default class Deliverydetails extends Component {
                 <div className="col-sm-6">
                   <div className="form-group">
                     <label className="control-label">
-                      Area <span className="required">*</span>
+                      State <span className="required">*</span>
                     </label>
                     <input
-                      className="form-control border-form-control"
                       type="text"
-                      name="area"
-                      value={area}
+                      className="form-control border-form-control"
+                      name="states"
+                      value={states}
                       onChange={this.handleChange}
                       required // Mark as required
                     />

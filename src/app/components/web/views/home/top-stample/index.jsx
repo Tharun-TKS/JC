@@ -118,7 +118,7 @@ class Topstample extends Component {
                                         <div className="product" style={{ backgroundColor: "black" }}>
                                             <Link to={`/p/${row.id}`}>
                                                 <div className="product-header">
-                                                    <img crossOrigin='anonymous' className="img-fluid" src={row.photo} alt={row.name} />
+                                                    <img crossOrigin='anonymous' className="img-fluid" src={row.photo} alt={row.name} style={{ width: '100%', height: 'auto', objectFit: 'cover' }}/>
                                                 </div>
                                                 <div className="product-body">
                                                     <h6 style={{ display: "none" }}>

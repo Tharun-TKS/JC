@@ -154,73 +154,59 @@ class Singleproduct extends Component {
                         </tr>
                       </tbody>
                     </table> */}
-                    <table className="table table-bordered">
-                      <tbody>
-                        <tr>
-                          <td style={{ fontWeight: "bold" }}>Product Name</td>
-                          <td>{product.name}</td>
-                        </tr>
-                        <tr>
-                          <td style={{ fontWeight: "bold" }}>Dimensions</td>
-                          <td>
-                            {product.height ? (
-                              product.height.includes(",") ? (
-                                <>
-                                  <div>
-                                    <strong>Height:</strong>{" "}
-                                    {product.height.split(",")[0].split(" ")[1]}{" "}
-                                    cm
-                                  </div>
-                                  <div>
-                                    <strong>Width:</strong>{" "}
-                                    {product.height.split(",")[1].split(" ")[2]}{" "}
-                                    cm
-                                  </div>
-                                </>
-                              ) : (
-                                <div>{product.height}</div>
-                              )
-                            ) : (
-                              "N/A"
-                            )}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style={{ fontWeight: "bold" }}>Stitch Details</td>
-                          {/* <td>{product.stitches}</td> */}
-                          <td>
-                            {product.stitches ? (
-                              product.stitches.includes(",") ? (
-                                <>
-                                  <div>
-                                    <strong>Back:</strong>{" "}
-                                    {
-                                      product.stitches
-                                        .split(",")[0]
-                                        .split(" ")[1]
-                                    }{" "}
-                                    cm
-                                  </div>
-                                  <div>
-                                    <strong>Hand:</strong>{" "}
-                                    {
-                                      product.stitches
-                                        .split(",")[1]
-                                        .split(" ")[2]
-                                    }{" "}
-                                    cm
-                                  </div>
-                                </>
-                              ) : (
-                                <div>{product.stitches}</div>
-                              )
-                            ) : (
-                              "N/A"
-                            )}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                     <table className="table table-bordered">
+    <tbody>
+      <tr>
+        <td style={{ fontWeight: "bold" }}>Product Name</td>
+        <td>{product.name}</td>
+      </tr>
+      <tr>
+        <td style={{ fontWeight: "bold" }}>Dimensions</td>
+        <td>
+          {product.height ? (
+            product.height.includes(",") ? (
+              <>
+                <div>
+                  <strong>Height:</strong> {product.height.split(",")[0].split(" ")[1]} cm
+                </div>
+                <div>
+                  <strong>Width:</strong> {product.height.split(",")[1].split(" ")[2]} cm
+                </div>
+              </>
+            ) : (
+              <div>{product.height}</div>
+            )
+          ) : (
+            "N/A"
+          )}
+        </td>
+      </tr>
+
+      
+      <tr>
+        <td style={{ fontWeight: "bold" }}>Stitch Details</td>
+        {/* <td>{product.stitches}</td> */}
+        <td>
+          {product.stitches ? (
+            product.stitches.includes(",") ? (
+              <>
+                <div>
+                  <strong>Back:</strong> {product.stitches.split(",")[0].split(" ")[1]} cm
+                </div>
+                <div>
+                  <strong>Hand:</strong> {product.stitches.split(",")[1].split(" ")[2]} cm
+                </div>
+              </>
+            ) : (
+              <div>{product.stitches}</div>
+            )
+          ) : (
+            "N/A"
+          )}
+        </td>
+      </tr>
+    </tbody>
+  </table>
                     <h3>Select a Machine</h3>
                     <h3>₹{totalMoney}</h3>
                     {/* <div>
