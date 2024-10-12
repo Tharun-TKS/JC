@@ -60,6 +60,26 @@ class Singleproduct extends Component {
     this.props.addToCart(this.state.product, this.state.selectedVariants); // Pass selectedVariants
   };
 
+  handleShare = () => {
+    const { product } = this.state;
+    const shareData = {
+      title: product?.name,
+      text: `Check out this amazing product: ${product?.name}`,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      navigator
+        .share(shareData)
+        .then(() => console.log("Successful share"))
+        .catch((error) => console.log("Error sharing", error));
+    } else {
+      // Fallback: Copy the URL to clipboard
+      navigator.clipboard.writeText(window.location.href);
+      alert("URL copied to clipboard!");
+    }
+  };
+
   // Handle lightbox open
   openLightbox = (index) => {
     this.setState({ isOpen: true, photoIndex: index });
@@ -137,7 +157,7 @@ class Singleproduct extends Component {
                 </div>
                 <div className="col-md-6">
                   <div className="shop-detail-right">
-                    <h3>Product Details</h3>
+                    <h3 onClick={this.handleShare} style={{cursor: "pointer"}}>Product Details</h3>
                     {/* <table className="table table-bordered">
                       <tbody>
                         <tr>
@@ -167,10 +187,10 @@ class Singleproduct extends Component {
             product.height.includes(",") ? (
               <>
                 <div>
-                  <strong>Height:</strong> {product.height.split(",")[0].split(" ")[1]} cm
+                  <strong>Height:</strong> {product.height.split(",")[0].split(" ")[1]} inc
                 </div>
                 <div>
-                  <strong>Width:</strong> {product.height.split(",")[1].split(" ")[2]} cm
+                  <strong>Width:</strong> {product.height.split(",")[1].split(" ")[2]} inc
                 </div>
               </>
             ) : (
@@ -191,10 +211,10 @@ class Singleproduct extends Component {
             product.stitches.includes(",") ? (
               <>
                 <div>
-                  <strong>Back:</strong> {product.stitches.split(",")[0].split(" ")[1]} cm
+                  <strong>Back:</strong> {product.stitches.split(",")[0].split(" ")[1]}
                 </div>
                 <div>
-                  <strong>Hand:</strong> {product.stitches.split(",")[1].split(" ")[2]} cm
+                  <strong>Hand:</strong> {product.stitches.split(",")[1].split(" ")[2]}
                 </div>
               </>
             ) : (

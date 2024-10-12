@@ -354,39 +354,124 @@ class Checkout extends Component {
     this.setState({ subTotal, discount, deliveryCharge, grandTotal });
   }
 
+  // handlePaymentSystem = async (e) => {
+  //   e.preventDefault();
+  //   const { customer, deliveryAddress } = this.state;
+  //   const { cartItems } = this.props;
+  //   const orderId = Math.floor(Math.random() * Date.now());
+  //   this.setState({ isLoaded: true });
+
+  //   if (deliveryAddress) {
+  //     const subTotal = this.calculateSubTotal();
+  //     const deliveryCharge = subTotal * 0.0; // Calculate delivery charge
+  //     const grandTotal = subTotal + deliveryCharge; // Ensure grandTotal calculation matches the UI
+
+  //     // Log cartItems to ensure structure
+  //     console.log("Cart Items:", cartItems);
+
+  //     const productIds = cartItems.map((item) => item.id);
+  //     const variantIds = cartItems.reduce((ids, item) => {
+  //       if (item.selectedVariants) {
+  //         item.selectedVariants.forEach((variant) => {
+  //           if (variant.id) {
+  //             ids.push(variant.id);
+  //           }
+  //         });
+  //       }
+  //       return ids;
+  //     }, []);
+
+  //     const uniqueVariantIds = [...new Set(variantIds)];
+  //     const addressId = deliveryAddress.selectedAddress || null;
+
+  //     // Initialize Razorpay payment options
+  //     const options = {
+  //       key: "rzp_test_gU8SJmvgqlFgMg",
+  //       amount: grandTotal * 100,
+  //       currency: "INR",
+  //       name: "JC Creations",
+  //       description: "Test Transaction",
+  //       image: "img/footerlogo.webp",
+  //       handler: async (response) => {
+  //         const data = {
+  //           customerId: customer.id,
+  //           orderId: orderId,
+  //           addressId: addressId,
+  //           productId: productIds,
+  //           deliveryAddress: deliveryAddress,
+  //           grandTotal: grandTotal,
+  //           variantIds: uniqueVariantIds,
+  //           razorpayPaymentId: response.razorpay_payment_id,
+  //         };
+
+  //         console.log("Data being sent to backend:", data);
+
+  //         try {
+  //           let order = await GetOrderDetails.getOrderCreateByUser(data);
+  //           if (order) {
+  //             NotificationManager.success("Successfully Ordered", "Order");
+  //             setTimeout(() => {
+  //               CartHelper.emptyCart();
+  //             }, 1000);
+  //           } else {
+  //             window.location.href = "/order/failed";
+  //           }
+  //         } catch (err) {
+  //           console.error("Error creating order:", err);
+  //           NotificationManager.error("Order creation failed", "Error");
+  //           this.setState({ isLoaded: false });
+  //         }
+  //       },
+  //       prefill: {
+  //         name: customer.firstName || "",
+  //         email: this.state.email || "",
+  //         phone_number: customer.phone || "",
+  //       },
+  //       notes: {
+  //         address: "JC Creations",
+  //       },
+  //       theme: {
+  //         color: "#CFB53B",
+  //       },
+  //     };
+
+  //     // Trigger Razorpay payment
+  //     const paymentObject = new window.Razorpay(options);
+  //     paymentObject.open();
+  //   } else {
+  //     NotificationManager.error("Please check address details", "Input Field");
+  //   }
+  // };
+
   handlePaymentSystem = async (e) => {
     e.preventDefault();
     const { customer, deliveryAddress } = this.state;
     const { cartItems } = this.props;
     const orderId = Math.floor(Math.random() * Date.now());
     this.setState({ isLoaded: true });
-
+  
     if (deliveryAddress) {
       const subTotal = this.calculateSubTotal();
       const deliveryCharge = subTotal * 0.0; // Calculate delivery charge
       const grandTotal = subTotal + deliveryCharge; // Ensure grandTotal calculation matches the UI
-
+  
       // Log cartItems to ensure structure
       console.log("Cart Items:", cartItems);
-
-      const productIds = cartItems.map((item) => item.id);
-      const variantIds = cartItems.reduce((ids, item) => {
-        if (item.selectedVariants) {
-          item.selectedVariants.forEach((variant) => {
-            if (variant.id) {
-              ids.push(variant.id);
-            }
-          });
-        }
-        return ids;
-      }, []);
-
-      const uniqueVariantIds = [...new Set(variantIds)];
+  
+      // Create the products field
+      const products = cartItems.map((item) => {
+        const variantIds = item.selectedVariants.map(variant => variant.id); // Extract variant IDs for each product
+        return {
+          productId: item.id,       // Store the product ID
+          variantIds: variantIds,   // Store the associated variant IDs
+        };
+      });
+  
       const addressId = deliveryAddress.selectedAddress || null;
-
+  
       // Initialize Razorpay payment options
       const options = {
-        key: "rzp_live_MSxLfoA6zXX2W7",
+        key: "rzp_test_gU8SJmvgqlFgMg",
         amount: grandTotal * 100,
         currency: "INR",
         name: "JC Creations",
@@ -397,15 +482,14 @@ class Checkout extends Component {
             customerId: customer.id,
             orderId: orderId,
             addressId: addressId,
-            productId: productIds,
-            deliveryAddress: deliveryAddress,
+            deliveryAddress: deliveryAddress, // Send the delivery address if addressId is null
             grandTotal: grandTotal,
-            variantIds: uniqueVariantIds,
             razorpayPaymentId: response.razorpay_payment_id,
+            products: products, // Send products array with productId and variantIds
           };
-
+  
           console.log("Data being sent to backend:", data);
-
+  
           try {
             let order = await GetOrderDetails.getOrderCreateByUser(data);
             if (order) {
@@ -434,7 +518,7 @@ class Checkout extends Component {
           color: "#CFB53B",
         },
       };
-
+  
       // Trigger Razorpay payment
       const paymentObject = new window.Razorpay(options);
       paymentObject.open();
@@ -442,6 +526,7 @@ class Checkout extends Component {
       NotificationManager.error("Please check address details", "Input Field");
     }
   };
+  
 
   handleRemoveProduct = (productId) => {
     this.props.removeFromCart(productId, null); // Pass null for variantIndex to indicate removal of the entire product

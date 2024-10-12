@@ -1,0 +1,121 @@
+.search-section145 {
+    /* margin-top: -20px; */
+    padding: 120px;
+    width: 100%;
+    display: block;
+    margin-bottom: -90px;
+}
+.search-text-center {
+    /* margin-top: 90px; */
+}
+
+.search-backbanner {
+    object-fit: cover;
+    margin-top: -10px;
+    height: 45vh;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .search-backbanner {
+        margin-top: 45px;
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .search-backbanner {
+        margin-top: 10px;
+        height: 40vh;
+    }
+}
+
+.search-search-form {
+    /* margin-top: 90px; */
+    display: flex;
+    justify-content: center;
+    /* margin-bottom: 10px; */
+    position: relative;
+}
+
+.search-search-box {
+    padding: 10px;
+    width: 50%;
+    max-width: 400px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.search-search-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-search-btn:hover {
+    background-color: #0056b3;
+}
+
+.search-error-message {
+    color: red;
+    margin-top: 10px;
+}
+
+.search-suggestions-box {
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid #ccc;
+    width: calc(50% - 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.search-suggestion-item {
+    display: flex;
+    padding: 10px;
+    cursor: pointer;
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+}
+
+.search-suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+.search-suggestion-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.search-suggestion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.search-suggestion-content h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.search-suggestion-content p {
+    margin: 0;
+    font-size: 14px;
+    color: #777;
+}
