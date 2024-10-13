@@ -22,13 +22,21 @@
         width: 100%;
         height: auto;
     }
+    search-section145 {
+        
+        padding: 120px;
+        width: 100%;
+        display: block;
+       
+    }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px) {
     .search-backbanner {
         margin-top: 10px;
         height: 40vh;
     }
+    
 }
 
 .search-search-form {

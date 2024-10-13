@@ -187,10 +187,10 @@ class Singleproduct extends Component {
             product.height.includes(",") ? (
               <>
                 <div>
-                  <strong>Height:</strong> {product.height.split(",")[0].split(" ")[1]} inc
+                  <strong>Height:</strong> {product.height.split(",")[0].split(" ")[1]} inch
                 </div>
                 <div>
-                  <strong>Width:</strong> {product.height.split(",")[1].split(" ")[2]} inc
+                  <strong>Width:</strong> {product.height.split(",")[1].split(" ")[2]} inch
                 </div>
               </>
             ) : (

@@ -87,7 +87,7 @@ class Search extends Component {
 
         return (
             <div>
-                <div className="search-section145">
+                <div className="search-section145 searchbottom">
                     <div className="search-text-center">
 
                         <div className="search-search-container" style={{ position: 'relative' }}>

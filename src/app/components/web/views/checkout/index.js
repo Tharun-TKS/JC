@@ -471,7 +471,7 @@ class Checkout extends Component {
   
       // Initialize Razorpay payment options
       const options = {
-        key: "rzp_test_gU8SJmvgqlFgMg",
+        key: "rzp_live_MSxLfoA6zXX2W7",
         amount: grandTotal * 100,
         currency: "INR",
         name: "JC Creations",

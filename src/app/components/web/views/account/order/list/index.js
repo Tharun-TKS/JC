@@ -648,22 +648,75 @@ export default class List extends Component {
     this.setState({ searchQuery: event.target.value });
   };
 
+  // handleDownload = async (variantPath) => {
+  //   try {
+  //     const filename = variantPath.substring(variantPath.lastIndexOf("/") + 1);
+  //     const response = await GetOrderDetails.getOrderDownload(filename);
+
+  //     if (response === null) {
+  //       NotificationManager.error("File not found", "Download Error");
+  //       return;
+  //     }
+
+  //     const blob = new Blob([response], { type: "application/zip" });
+
+  //     const link = document.createElement("a");
+  //     link.href = window.URL.createObjectURL(blob);
+  //     link.download = filename;
+
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+  //   } catch (error) {
+  //     console.error("Download error:", error);
+
+
+
+  //     NotificationManager.error("Failed to download the file", "Download Error");
+  //   }
+  // };
+
+
   handleDownload = async (variantPath) => {
     try {
-      const filename = variantPath.substring(variantPath.lastIndexOf("/") + 1);
-      const response = await GetOrderDetails.getOrderDownload(filename);
-
+      let filename = variantPath.substring(variantPath.lastIndexOf("/") + 1);
+  
+      // Define the keywords to remove
+      const keywordsToRemove = [
+        "DSTBERNINA14x8",
+        "DSTBROTHERV3SE12x8",
+        "DSTFULL",
+        "JEFUSHA45011x8",
+        "JEFUSHA55014x8",
+        "PESBROTHERBP360014x9.5"
+      ];
+  
+      // Check if the file exists with the original filename
+      let response = await GetOrderDetails.getOrderDownload(filename);
+  
+      // If the file is not found, remove keywords and check again
+      if (response === null) {
+        keywordsToRemove.forEach(keyword => {
+          const regex = new RegExp(keyword, 'g');
+          filename = filename.replace(regex, '').trim(); // Remove keyword and trim whitespace
+        });
+  
+        // Check again with the modified filename
+        response = await GetOrderDetails.getOrderDownload(filename);
+      }
+  
+      // If still no response, show an error
       if (response === null) {
         NotificationManager.error("File not found", "Download Error");
         return;
       }
-
+  
       const blob = new Blob([response], { type: "application/zip" });
-
+  
       const link = document.createElement("a");
       link.href = window.URL.createObjectURL(blob);
       link.download = filename;
-
+  
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -672,6 +725,9 @@ export default class List extends Component {
       NotificationManager.error("Failed to download the file", "Download Error");
     }
   };
+  
+
+
 
   render() {
     const { user, orderList, searchQuery } = this.state;
