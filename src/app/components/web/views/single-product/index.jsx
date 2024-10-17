@@ -35,6 +35,25 @@ class Singleproduct extends Component {
     }
   }
 
+  async componentDidUpdate(prevProps) {
+    // Get the current product ID from the URL
+    let url = window.location.href.split("/");
+    let currentProductId = parseInt(url[url.length - 1], 10);
+  
+    // Get the previous product ID from the previous URL
+    let prevUrl = prevProps.location.pathname.split("/");
+    let previousProductId = parseInt(prevUrl[prevUrl.length - 1], 10);
+  
+    // If the current product ID is different from the previous one, fetch the new product
+    if (currentProductId !== previousProductId) {
+      const response = await GetProductDetails.getProductById(currentProductId);
+      if (response && response.success) {
+        this.setState({ product: response.data, selectedVariants: [], totalMoney: 0 });
+      }
+    }
+  }
+  
+
   handleCheckboxChange = (event, variant) => {
     const { checked } = event.target;
     this.setState((prevState) => {

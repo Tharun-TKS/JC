@@ -630,7 +630,7 @@ export default class List extends Component {
       let value = await GetUserLogin.getCustomerDetail(email);
       if (value && value.data) {
         this.setState({ customer: value.data, user: value.data }, async () => {
-          let list = await GetOrderDetails.getOrderByUser(this.state.customer.id);
+          let list = await GetOrderDetails.getOrderByUser(this.state.customer.phone);
           this.setState({ orderList: list.orders });
         });
       } else {
@@ -648,86 +648,196 @@ export default class List extends Component {
     this.setState({ searchQuery: event.target.value });
   };
 
-  // handleDownload = async (variantPath) => {
-  //   try {
-  //     const filename = variantPath.substring(variantPath.lastIndexOf("/") + 1);
-  //     const response = await GetOrderDetails.getOrderDownload(filename);
-
-  //     if (response === null) {
-  //       NotificationManager.error("File not found", "Download Error");
-  //       return;
-  //     }
-
-  //     const blob = new Blob([response], { type: "application/zip" });
-
-  //     const link = document.createElement("a");
-  //     link.href = window.URL.createObjectURL(blob);
-  //     link.download = filename;
-
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //   } catch (error) {
-  //     console.error("Download error:", error);
 
 
+// handleDownload = async (variantPath) => {
+//   try {
+//     let originalFilename = variantPath.substring(variantPath.lastIndexOf("/") + 1);
+//     let filename = originalFilename;
 
-  //     NotificationManager.error("Failed to download the file", "Download Error");
-  //   }
-  // };
+//     const checkFileExists = async (file) => {
+//       return await GetOrderDetails.getOrderDownload(file);
+//     };
+
+//     const generateVariations = (currentFilename) => {
+//       const baseName = currentFilename.replace('.zip', '');
+//       return [
+//         currentFilename,
+//         baseName + '.zip',
+//         baseName.replace(/DSTBROTHERV3SE/, "DSTBROTHERV3V3SE") + '.zip',
+//         baseName.replace(/DSTBROTHERV3V3SE/, "DSTBROTHERV3SE") + '.zip',
+//         baseName.replace(/12x8$/, "").trim() + '.zip',
+//         baseName.replace(/DSTBROTHERV3SE/, "DSTBROTHERV3V3SE").replace(/12x8$/, "").trim() + '.zip',
+//         baseName.replace(/DSTBROTHERV3V3SE/, "DSTBROTHERV3SE").replace(/12x8$/, "").trim() + '.zip',
+//       ];
+//     };
 
 
-  handleDownload = async (variantPath) => {
-    try {
-      let filename = variantPath.substring(variantPath.lastIndexOf("/") + 1);
-  
-      // Define the keywords to remove
-      const keywordsToRemove = [
-        "DSTBERNINA14x8",
-        "DSTBROTHERV3SE12x8",
-        "DSTFULL",
-        "JEFUSHA45011x8",
-        "JEFUSHA55014x8",
-        "PESBROTHERBP360014x9.5"
+//     let response = await checkFileExists(filename);
+
+
+
+    
+//     if (response === null) {
+//       const variations = generateVariations(filename);
+//       for (let variation of variations) {
+//         response = await checkFileExists(variation);
+//         if (response) {
+//           filename = variation; // Update filename to the found variation
+//           break;
+//         }
+//       }
+//     }
+    
+//     if (response === null) {
+//       let basename = filename.slice(0, -8);
+//       let trimmedFilename = basename + '.zip';
+//       response = await checkFileExists(trimmedFilename);
+//     }
+
+//     if (response === null) {
+    
+//       const wordsToRemove = [
+//         "DSTBERNINA14x8",
+//         "DSTFULL",
+//         "JEFUSHA45011x8",
+//         "JEFUSHA55014x8",
+//         "PESBROTHERBP360014x9.5",
+//         "DSTBROTHERV3V3SE12x8"
+//       ];
+
+     
+//       wordsToRemove.forEach(word => {
+//         filename = filename.replace(new RegExp(word, 'g'), '');
+//       });
+
+//       response = await checkFileExists(filename);
+
+
+//       if (response === null) {
+//         NotificationManager.error("File not found", "Download Error", 3000);
+//         return;
+//       }
+//     }
+
+//     // Create a Blob and trigger the download
+//     const blob = new Blob([response], { type: "application/zip" });
+//     const link = document.createElement("a");
+//     link.href = window.URL.createObjectURL(blob);
+//     link.download = filename.endsWith('.zip') ? filename : filename + '.zip';
+
+//     document.body.appendChild(link);
+//     link.click();
+//     document.body.removeChild(link);
+
+//     // Show success notification
+//     NotificationManager.success("File downloaded successfully", "Download Complete", 3000);
+//   } catch (error) {
+//     console.error("Download error:", error);
+//     NotificationManager.error("Failed to download the file", "Download Error", 3000);
+//   }
+// };
+
+
+handleDownload = async (variantPath) => {
+  try {
+    let originalFilename = variantPath.substring(variantPath.lastIndexOf("/") + 1);
+    let filename = originalFilename;
+
+    // Show loading notification
+    NotificationManager.info("Download in progress...", "Download", 1000);
+
+    // Define the keywords to remove
+    const keywordsToRemove = [
+      "DSTBERNINA14x8",
+      "DSTFULL",
+      "JEFUSHA45011x8",
+      "JEFUSHA55014x8",
+      "PESBROTHERBP360014x9.5",
+    ];
+
+    // Function to check if the file exists
+    const checkFileExists = async (file) => {
+      return await GetOrderDetails.getOrderDownload(file);
+    };
+
+    // Function to generate filename variations
+    const generateVariations = (currentFilename) => {
+      const baseName = currentFilename.replace('.zip', '');
+      return [
+        currentFilename,
+        baseName + '.zip',
+        baseName.replace(/DSTBROTHERV3SE/, "DSTBROTHERV3V3SE") + '.zip',
+        baseName.replace(/DSTBROTHERV3V3SE/, "DSTBROTHERV3SE") + '.zip',
+        baseName.replace(/12x8$/, "").trim() + '.zip',
+        baseName.replace(/DSTBROTHERV3SE/, "DSTBROTHERV3V3SE").replace(/12x8$/, "").trim() + '.zip',
+        baseName.replace(/DSTBROTHERV3V3SE/, "DSTBROTHERV3SE").replace(/12x8$/, "").trim() + '.zip',
       ];
-  
-      // Check if the file exists with the original filename
-      let response = await GetOrderDetails.getOrderDownload(filename);
-  
-      // If the file is not found, remove keywords and check again
-      if (response === null) {
-        keywordsToRemove.forEach(keyword => {
-          const regex = new RegExp(keyword, 'g');
-          filename = filename.replace(regex, '').trim(); // Remove keyword and trim whitespace
-        });
-  
-        // Check again with the modified filename
-        response = await GetOrderDetails.getOrderDownload(filename);
+    };
+
+    // Check the original filename first
+    let response = await checkFileExists(filename);
+
+    // If not found, generate variations and check each one
+    if (response === null) {
+      const variations = generateVariations(filename);
+      for (let variation of variations) {
+        response = await checkFileExists(variation);
+        if (response) {
+          filename = variation; // Update filename to the found variation
+          break;
+        }
       }
-  
-      // If still no response, show an error
-      if (response === null) {
-        NotificationManager.error("File not found", "Download Error");
-        return;
-      }
-  
-      const blob = new Blob([response], { type: "application/zip" });
-  
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = filename;
-  
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error("Download error:", error);
-      NotificationManager.error("Failed to download the file", "Download Error");
     }
-  };
-  
 
+    // If still no response, check for trimmed filename if it ends with .zip
+    if (response === null && filename.endsWith(".zip")) {
+      const baseName = filename.slice(0, -8); // Remove the ".zip" extension
+      const trimmedFilename = baseName + ".zip"; // Re-add ".zip" after trimming
+      response = await checkFileExists(trimmedFilename);
+      if (response) {
+        filename = trimmedFilename; // Update filename if found
+      }
+    }
 
+    // If still no response, remove keywords and check again
+    if (response === null) {
+      let modifiedFilename = originalFilename;
+      keywordsToRemove.forEach(keyword => {
+        const regex = new RegExp(keyword, 'g');
+        modifiedFilename = modifiedFilename.replace(regex, '').trim();
+      });
+
+      // Check again with the modified filename
+      response = await checkFileExists(modifiedFilename);
+      if (response) {
+        filename = modifiedFilename; // Update filename if found
+      }
+    }
+
+    // If still no response, show an error
+    if (response === null) {
+      NotificationManager.error("File not found", "Download Error", 3000);
+      return;
+    }
+
+    // Create a Blob and trigger the download
+    const blob = new Blob([response], { type: "application/zip" });
+    const link = document.createElement("a");
+    link.href = window.URL.createObjectURL(blob);
+    link.download = filename.endsWith('.zip') ? filename : filename + '.zip';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Show success notification
+    NotificationManager.success("File downloaded successfully", "Download Complete", 3000);
+  } catch (error) {
+    console.error("Download error:", error);
+    NotificationManager.error("Failed to download the file", "Download Error", 3000);
+  }
+};
 
   render() {
     const { user, orderList, searchQuery } = this.state;
@@ -746,7 +856,7 @@ export default class List extends Component {
       return orderIDMatch || dateMatch || productMatch;
     });
 
-    const totalOrders = orderList.length;
+    const totalOrders = filteredOrders.length;
 
     return (
       <div className="wrapper">
@@ -857,6 +967,7 @@ export default class List extends Component {
                               >
                                 <thead>
                                   <tr>
+                                    <th>S.No</th>
                                     <th>Order ID</th>
                                     <th>Date Purchased</th>
                                     <th>Total</th>
@@ -871,6 +982,9 @@ export default class List extends Component {
         row.orderPaths.map((path, i) => (
           <React.Fragment key={`${index}-${i}`}>
             <tr>
+            <td rowSpan={path.variants && path.variants.length > 0 ? path.variants.length : 1}>
+                                                {index + 1}
+                                              </td>
               <td rowSpan={path.variants && path.variants.length > 0 ? path.variants.length : 1}>
                 #{row.number}
               </td>

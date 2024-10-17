@@ -101,7 +101,7 @@ class Topstample extends Component {
 
         return (
             <div>
-                <section className="product-items-slider section-padding topclass">
+                <section className="product-items-slider section-padding">
                     <div className="container" id="header-category-bk" style={{ padding: '0 15px' }}>
                         <div className="section-header text-center">
                             <h2>Top Sellers</h2>
@@ -117,7 +117,7 @@ class Topstample extends Component {
                                     <div key={index} className="col-12 col-md-6 col-lg-4 col-xl-3 mb-4">
                                         <div className="product" style={{ backgroundColor: "black" }}>
                                             <Link to={`/p/${row.id}`}>
-                                                <div className="product-header mobileproduct">
+                                                <div className="product-header">
                                                     <img crossOrigin='anonymous' className="img-fluid" src={row.photo} alt={row.name} style={{ width: '100%', height: 'auto', objectFit: 'cover' }}/>
                                                 </div>
                                                 <div className="product-body">

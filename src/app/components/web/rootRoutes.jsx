@@ -116,7 +116,7 @@ import Search from './views/home/search';
 class rootRoutes extends Component {
     render() {
         const { location } = this.props;
-        const shouldShowSearch = !(location.pathname === '/' || location.pathname.startsWith('/account'));
+        const shouldShowSearch = !(location.pathname === '/' || location.pathname.startsWith('/account') || location.pathname.startsWith('/tagsearch'));
 
         return (
             <div>

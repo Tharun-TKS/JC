@@ -354,6 +354,7 @@ class Checkout extends Component {
     this.setState({ subTotal, discount, deliveryCharge, grandTotal });
   }
 
+  
   // handlePaymentSystem = async (e) => {
   //   e.preventDefault();
   //   const { customer, deliveryAddress } = this.state;
@@ -443,89 +444,195 @@ class Checkout extends Component {
   //   }
   // };
 
+  // handlePaymentSystem = async (e) => {
+  //   e.preventDefault();
+  //   const { customer, deliveryAddress } = this.state;
+  //   const { cartItems } = this.props;
+  //   const orderId = Math.floor(Math.random() * Date.now());
+  //   this.setState({ isLoaded: true });
+  
+  //   if (deliveryAddress) {
+  //     const subTotal = this.calculateSubTotal();
+  //     const deliveryCharge = subTotal * 0.0; // Calculate delivery charge
+  //     const grandTotal = subTotal + deliveryCharge; // Ensure grandTotal calculation matches the UI
+  
+  //     // Log cartItems to ensure structure
+  //     console.log("Cart Items:", cartItems);
+  
+  //     // Create the products field
+  //     const products = cartItems.map((item) => {
+  //       const variantIds = item.selectedVariants.map(variant => variant.id); // Extract variant IDs for each product
+  //       return {
+  //         productId: item.id,       // Store the product ID
+  //         variantIds: variantIds,   // Store the associated variant IDs
+  //       };
+  //     });
+  
+  //     const addressId = deliveryAddress.selectedAddress || null;
+  
+  //     // Initialize Razorpay payment options
+  //     const options = {
+  //       key: "rzp_live_MSxLfoA6zXX2W7",
+  //       amount: grandTotal * 100,
+  //       currency: "INR",
+  //       name: "JC Creations",
+  //       description: "Test Transaction",
+  //       image: "img/footerlogo.webp",
+  //       handler: async (response) => {
+  //         const data = {
+  //           customerId: customer.id,
+  //           orderId: orderId,
+  //           addressId: addressId,
+  //           deliveryAddress: deliveryAddress, // Send the delivery address if addressId is null
+  //           grandTotal: grandTotal,
+  //           razorpayPaymentId: response.razorpay_payment_id,
+  //           products: products, // Send products array with productId and variantIds
+  //         };
+  
+  //         console.log("Data being sent to backend:", data);
+  
+  //         try {
+  //           let order = await GetOrderDetails.getOrderCreateByUser(data);
+  //           if (order) {
+  //             NotificationManager.success("Successfully Ordered", "Order");
+  //             setTimeout(() => {
+  //               CartHelper.emptyCart();
+  //             }, 1000);
+  //           } else {
+  //             window.location.href = "/order/failed";
+  //           }
+  //         } catch (err) {
+  //           console.error("Error creating order:", err);
+  //           NotificationManager.error("Order creation failed", "Error");
+  //           this.setState({ isLoaded: false });
+  //         }
+  //       },
+  //       prefill: {
+  //         name: customer.firstName || "",
+  //         email: this.state.email || "",
+  //         phone_number: customer.phone || "",
+  //       },
+  //       notes: {
+  //         address: "JC Creations",
+  //       },
+  //       theme: {
+  //         color: "#CFB53B",
+  //       },
+  //     };
+  
+  //     // Trigger Razorpay payment
+  //     const paymentObject = new window.Razorpay(options);
+  //     paymentObject.open();
+  //   } else {
+  //     NotificationManager.error("Please check address details", "Input Field");
+  //   }
+  // };
+
+
+
   handlePaymentSystem = async (e) => {
     e.preventDefault();
     const { customer, deliveryAddress } = this.state;
     const { cartItems } = this.props;
     const orderId = Math.floor(Math.random() * Date.now());
     this.setState({ isLoaded: true });
-  
+
     if (deliveryAddress) {
-      const subTotal = this.calculateSubTotal();
-      const deliveryCharge = subTotal * 0.0; // Calculate delivery charge
-      const grandTotal = subTotal + deliveryCharge; // Ensure grandTotal calculation matches the UI
-  
-      // Log cartItems to ensure structure
-      console.log("Cart Items:", cartItems);
-  
-      // Create the products field
-      const products = cartItems.map((item) => {
-        const variantIds = item.selectedVariants.map(variant => variant.id); // Extract variant IDs for each product
-        return {
-          productId: item.id,       // Store the product ID
-          variantIds: variantIds,   // Store the associated variant IDs
-        };
-      });
-  
-      const addressId = deliveryAddress.selectedAddress || null;
-  
-      // Initialize Razorpay payment options
-      const options = {
-        key: "rzp_live_MSxLfoA6zXX2W7",
-        amount: grandTotal * 100,
-        currency: "INR",
-        name: "JC Creations",
-        description: "Test Transaction",
-        image: "img/footerlogo.webp",
-        handler: async (response) => {
-          const data = {
+        const subTotal = this.calculateSubTotal();
+        const deliveryCharge = subTotal * 0.0;
+        const grandTotal = subTotal + deliveryCharge;
+
+        const products = cartItems.map((item) => {
+            const variantIds = item.selectedVariants.map(variant => variant.id);
+            return {
+                productId: item.id,
+                variantIds: variantIds,
+            };
+        });
+
+        const addressId = deliveryAddress.selectedAddress || null;
+
+        // Step 1: Create a preorder entry in the backend
+        const preorderData = {
             customerId: customer.id,
             orderId: orderId,
-            addressId: addressId,
-            deliveryAddress: deliveryAddress, // Send the delivery address if addressId is null
             grandTotal: grandTotal,
-            razorpayPaymentId: response.razorpay_payment_id,
-            products: products, // Send products array with productId and variantIds
-          };
-  
-          console.log("Data being sent to backend:", data);
-  
-          try {
-            let order = await GetOrderDetails.getOrderCreateByUser(data);
-            if (order) {
-              NotificationManager.success("Successfully Ordered", "Order");
-              setTimeout(() => {
-                CartHelper.emptyCart();
-              }, 1000);
-            } else {
-              window.location.href = "/order/failed";
-            }
-          } catch (err) {
-            console.error("Error creating order:", err);
-            NotificationManager.error("Order creation failed", "Error");
+            products: products,
+        };
+
+        try {
+            // Store preorder data in the backend
+            await GetOrderDetails.createPreorder(preorderData);
+            console.log("Preorder created successfully" , preorderData);
+
+            // Step 2: Initialize Razorpay payment options
+            const options = {
+                key: "rzp_live_YJ7vOnVL1HKfgL",
+                amount: grandTotal * 100,
+                currency: "INR",
+                name: "JC Creations",
+                description: "Test Transaction",
+                image: "img/footerlogo.webp",
+                handler: async (response) => {
+                    if (response.razorpay_payment_id) {
+                        // Step 3: Payment was successful, proceed to create the final order
+                        const orderData = {
+                            customerId: customer.id,
+                            orderId: orderId,
+                            addressId: addressId,
+                            deliveryAddress: deliveryAddress,
+                            grandTotal: grandTotal,
+                            razorpayPaymentId: response.razorpay_payment_id,
+                            products: products,
+                        };
+
+                        try {
+                            let order = await GetOrderDetails.getOrderCreateByUser(orderData);
+                            if (order) {
+                                NotificationManager.success("Successfully Ordered", "Order");
+                                setTimeout(() => {
+                                    CartHelper.emptyCart();
+                                }, 1000);
+
+                            } else {
+                                window.location.href = "/order/failed";
+                            }
+                        } catch (err) {
+                            console.error("Error creating order:", err);
+                            NotificationManager.error("Order creation failed", "Error");
+                            this.setState({ isLoaded: false });
+                        }
+                    } else {
+                        NotificationManager.error("Payment failed. Please try again.", "Payment");
+                        this.setState({ isLoaded: false });
+                    }
+                },
+                prefill: {
+                    name: customer.firstName || "",
+                    email: this.state.email || "",
+                    phone_number: customer.phone || "",
+                },
+                notes: {
+                    address: "JC Creations",
+                },
+                theme: {
+                    color: "#CFB53B",
+                },
+            };
+
+            // Step 5: Trigger Razorpay payment
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.open();
+        } catch (err) {
+            console.error("Error creating preorder:", err);
+            NotificationManager.error("Preorder creation failed", "Error");
             this.setState({ isLoaded: false });
-          }
-        },
-        prefill: {
-          name: customer.firstName || "",
-          email: this.state.email || "",
-          phone_number: customer.phone || "",
-        },
-        notes: {
-          address: "JC Creations",
-        },
-        theme: {
-          color: "#CFB53B",
-        },
-      };
-  
-      // Trigger Razorpay payment
-      const paymentObject = new window.Razorpay(options);
-      paymentObject.open();
+        }
     } else {
-      NotificationManager.error("Please check address details", "Input Field");
+        NotificationManager.error("Please check address details", "Input Field");
     }
-  };
+};
+
   
 
   handleRemoveProduct = (productId) => {

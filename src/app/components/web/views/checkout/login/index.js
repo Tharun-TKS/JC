@@ -102,6 +102,7 @@ export default class Login extends Component {
                                                     <div className="tab-content">
                                                         <div className="tab-pane active" id="login" role="tabpanel">
                                                             <h5 className="heading-design-h5">Login to your account</h5>
+                                                            <label style={{color:"red", fontWeight:"bold"}}>Please be noted that your phone number is your password</label>
                                                             <fieldset className="form-group">
                                                                 <label>Enter Email/Mobile number</label>
                                                                 <input type="text" className="form-control" name="emailOrPhone" value={emailOrPhone} onChange={this.handleChange} />
@@ -117,7 +118,7 @@ export default class Login extends Component {
                                                                 )}
                                                             </fieldset>
                                                             <fieldset className="form-group">
-                                                                <button type="submit" className="btn btn-lg btn-secondary btn-block" onClick={this.handleSubmit}>Enter to your account</button>
+                                                                <button type="submit" className="btn btn-lg btn-secondary btn-block" onClick={this.handleSubmit}>Login</button>
                                                             </fieldset>
                                                             {/* <div className="login-with-sites text-center">
                                                                 <p>or Login with your social profile:</p>

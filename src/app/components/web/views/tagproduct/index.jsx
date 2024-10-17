@@ -399,6 +399,10 @@
 // }
 
 // export default withRouter(TagProduct);
+
+
+
+
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -418,30 +422,14 @@ class TagProduct extends Component {
             itemsPerPage: 18, // Set the number of items per page
             visiblePages: 10, // Number of page numbers to show at a time
             pageGroupStart: 1, // Track the starting page number of the visible group
-            isMobile: window.innerWidth <= 768 // Detect mobile screen width
+            isMobile: window.innerWidth <= 768, // Detect mobile screen width
+            searchText: '' // Initialize searchText state
         };
     }
 
     async componentDidMount() {
         const { tag } = this.props.match.params; // Get the tag from URL parameters
-
-        const response = await GetProductDetails.getProductByTagSearch(tag);
-        
-        // Remove duplicates by creating a Set based on product IDs
-        const uniqueProducts = response ? response.products : [];
-        const uniqueProductIds = new Set();
-        const filteredProducts = uniqueProducts.filter(product => {
-            if (!uniqueProductIds.has(product.id)) {
-                uniqueProductIds.add(product.id);
-                return true; // Keep the product
-            }
-            return false; // Discard duplicate product
-        });
-
-        this.setState({
-            productlist: filteredProducts,
-            isLoaded: true
-        });
+        await this.fetchProducts(tag); // Fetch products on mount
 
         let email = sessionStorage.getItem('email');
         if (email) {
@@ -454,6 +442,44 @@ class TagProduct extends Component {
         // Add event listener for window resize
         window.addEventListener('resize', this.updateIsMobile);
     }
+
+
+    fetchProducts = async (tag) => {
+        const response = await GetProductDetails.getProductByTagSearch(tag);
+        const uniqueProducts = response ? response.products : [];
+        const uniqueProductIds = new Set();
+        const filteredProducts = uniqueProducts.filter(product => {
+            if (!uniqueProductIds.has(product.id)) {
+                uniqueProductIds.add(product.id);
+                return true;
+            }
+            return false;
+        });
+
+        this.setState({
+            productlist: filteredProducts,
+            isLoaded: true,
+            currentPage: 1, // Reset current page to 1 on new search
+            pageGroupStart: 1 // Reset page group on new search
+        });
+    };
+
+
+    handleSearchChange = (event) => {
+        this.setState({ searchText: event.target.value });
+    };
+
+    handleSearchSubmit = async (event) => {
+        event.preventDefault(); // Prevent the default form submission
+        const { searchText } = this.state;
+        const tag = searchText.trim(); // Get the trimmed search text
+
+        if (tag) {
+            await this.fetchProducts(tag); // Fetch products based on search text
+        } else {
+            NotificationManager.error('Please enter a search term.'); // Show error if search text is empty
+        }
+    };
 
     componentWillUnmount() {
         // Remove event listener for window resize when the component unmounts
@@ -525,7 +551,7 @@ class TagProduct extends Component {
     };
 
     render() {
-        const { productlist, isLoaded, wishlist, currentPage, itemsPerPage, visiblePages, pageGroupStart, isMobile } = this.state;
+        const { productlist, isLoaded, wishlist, currentPage, itemsPerPage, visiblePages, pageGroupStart, isMobile, searchText } = this.state;
 
         // Calculate the number of visible pages based on screen size
         const maxVisiblePages = isMobile ? 5 : visiblePages;
@@ -548,6 +574,23 @@ class TagProduct extends Component {
 
         return (
             <div>
+                 <div className="search-section145">
+                    <div className="search-text-center">
+
+                        <div className="search-search-container" style={{ position: 'relative' }}>
+                            <form onSubmit={this.handleSearchSubmit} className="search-search-form">
+                                <input
+                                    type="text"
+                                    placeholder="Search with Category, Tag & Product Name"
+                                    className="search-search-box"
+                                    value={searchText}
+                                    onChange={this.handleSearchChange}
+                                />
+                                <button type="submit" className="search-search-btn">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <section className="product-items-slider section-padding">
                     <div className="container tagheader" id="header-category-bk">
                         <div className="section-header text-center tag-section">

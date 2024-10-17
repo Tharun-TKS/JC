@@ -1825,14 +1825,6 @@ label {
         margin-right: 0; /* Remove right margin */
         margin-bottom: 10px; /* Add bottom margin for spacing */
     }
-
-    .topclass{
-        margin-top: 150px;
-
-    }
-    .mobileproduct{
-        padding: 81px;
-    }
 }
 
 /* Styles for the message */

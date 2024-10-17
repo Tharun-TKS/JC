@@ -95,7 +95,7 @@ class Productview extends Component {
 
     const queryParams = new URLSearchParams(this.props.location.search);
     const categoryId = queryParams.get("categoryId");
-    this.fetchProductsByCategory(categoryId);
+    this.fetchProductsByCategory(categoryId || 63);
     this.fetchSubCategories();
 
     let email = sessionStorage.getItem("email");

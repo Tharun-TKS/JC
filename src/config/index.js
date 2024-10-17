@@ -19,6 +19,7 @@ const Apis = {
   GetNewProductArrivals: `${API_URL}/api/product/getNewArrivals`,
   //product api
   GetOrderCreateByUser: `${API_URL}/api/order/create`,
+  GetPreOrderCreate: `${API_URL}/api/order/preorder`,
   GetOrderByUser: `${API_URL}/api/order/list`,
   GetOrderDownload: `${API_URL}/api/order/download`,
   //Filter by category

@@ -11,7 +11,7 @@
 }
 @media (max-width: 768px) {
   .wrapper {
-    padding-top: 100px; /* Adjust based on the combined height of your header and banner */
+    padding-top: 180px; /* Adjust based on the combined height of your header and banner */
   }
   .fixed-banner {
     position: fixed; /* Fixed position to ensure it stays in place */

@@ -298,6 +298,7 @@ export default class Login extends Component {
                               <h5 className="heading-design-h5">
                                 Login to your account
                               </h5>
+                              <label style={{color:"red", fontWeight:"bold"}}>Please be noted that your phone number is your password</label>
                               <fieldset className="form-group">
                                 <label>Enter Email/Phone number</label>
                                 <input
@@ -345,7 +346,7 @@ export default class Login extends Component {
                                   type="submit"
                                   className="btn btn-lg btn-secondary btn-block"
                                 >
-                                  Enter to your account
+                                  Login
                                 </button>
                               </fieldset>
                               <div className="custom-control custom-checkbox">
